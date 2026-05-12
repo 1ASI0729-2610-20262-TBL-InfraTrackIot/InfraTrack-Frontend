@@ -1,0 +1,419 @@
+{
+  "app": {
+    "title": "InfraTrack",
+    "tagline": "Open-source fleet intelligence for heavy machinery."
+  },
+  "nav": {
+    "controlPanel": "Control Panel",
+    "assetManagement": "Asset Management",
+    "telemetry": "Telemetry & Tracking",
+    "reportsAnalytics": "Reports & Analytics",
+    "performance": "Optimization & Performance",
+    "configuration": "Configuration & Support",
+    "profile": "Account"
+  },
+  "common": {
+    "searchPlaceholder": "Search by ID, plate or…",
+    "emergency": "Emergency",
+    "notifications": "Notifications",
+    "user": "User",
+    "logout": "Sign out",
+    "breadcrumbHome": "Home",
+    "language": "Language",
+    "demoEmergency": "Emergency channel activated (demo).",
+    "demoSearch": "Search will be wired to the backend in a later iteration."
+  },
+  "profile": {
+    "openProfilePage": "Open account page",
+    "pageTitle": "My account",
+    "pageIntro": "Your InfraTrack identity, operator record and session.",
+    "accountSection": "Account details",
+    "operatorSection": "Operator profile",
+    "operatorName": "Full name",
+    "operatorLicense": "License",
+    "operatorPhone": "Phone",
+    "operatorState": "Status",
+    "sessionSection": "Session",
+    "sessionHint": "Signing out clears your session and picks another preview user for this device.",
+    "badgeLive": "Live · MockAPI",
+    "badgePreview": "Preview · local data",
+    "apiSetupTitle": "Why you don’t see real MockAPI data yet",
+    "apiSetupLine1": "The app calls GET on your `identity` base (see `mock-api-bases.ts`). Right now that project returns HTTP 404 for the `users` and/or `operators` collections, so the UI fills in demo rows for the preview user id.",
+    "apiSetupLine2": "In mockapi.io create both resources with the fields you defined (id, username, email, role, …) and at least one user whose id matches the preview id in localStorage (`infratrack_preview_user_id`), or point `identity` to another project URL where those routes already work. Then reload.",
+    "operatorDemoNote": "User came from MockAPI, but no operator row matched this userId; showing a local placeholder until `operators` includes a matching record.",
+    "guest": "Guest",
+    "role": {
+      "admin": "Administrator",
+      "owner": "Owner",
+      "technician": "Technician",
+      "other": "User"
+    },
+    "operatorStatus": {
+      "active": "Active operator",
+      "inactive": "Inactive operator"
+    },
+    "userIdLabel": "User ID",
+    "memberSince": "Member since",
+    "accountStatus": "Account",
+    "accountActive": "Active",
+    "accountInactive": "Inactive",
+    "offlineDemo": "Preview: MockAPI did not return this user; showing local demo data for the same ID."
+  },
+  "login": {
+    "title": "Sign in",
+    "subtitle": "Use your credentials to access the InfraTrack console.",
+    "username": "Username",
+    "usernameHint": "Any non-empty value is accepted in this demo.",
+    "password": "Password",
+    "submit": "Enter",
+    "errorRequired": "Enter a username to continue."
+  },
+  "footer": {
+    "notice": "InfraTrack — Open Source academic project (UPC)."
+  },
+  "controlPanel": {
+    "title": "Control Panel",
+    "intro": "Centralized view of fleet health and critical fuel alerts.",
+    "load": {
+      "loading": "Loading fleet data…",
+      "error": "Could not load dashboard data. Check your connection and try again.",
+      "empty": "No data returned from the APIs (alerts / machinery).",
+      "retry": "Refresh"
+    },
+    "kpis": {
+      "activeMachines": "Active machines",
+      "fuelAlerts": "Fuel alerts",
+      "idleMachines": "Idle machines",
+      "efficiencyRate": "Efficiency rate"
+    },
+    "map": {
+      "title": "GPS tracking overview",
+      "legendActive": "Active",
+      "legendWarning": "Warning",
+      "legendIdle": "Idle",
+      "hint": "Pan and zoom the map. Click a marker for unit details. Map data © OpenStreetMap contributors.",
+      "dataNote": "Marker positions are derived from the fleet registry for this demo (API does not include GPS coordinates).",
+      "dataNoteTelemetry": "Positions use the latest telemetry (latitude / longitude) per unit when available; otherwise a stable fallback around Lima.",
+      "markerStatus": {
+        "active": "Active",
+        "warning": "Attention",
+        "idle": "Idle / offline"
+      },
+      "markers": {
+        "activeTitle": "Excavator EX-02",
+        "activeBody": "Active · Fuel 78% · Site A",
+        "warningTitle": "Loader LD-07",
+        "warningBody": "Warning · Engine temp. elevated · Site D",
+        "idleTitle": "Bulldozer BD-03",
+        "idleBody": "Idle · Parked 42 min · Yard B"
+      }
+    },
+    "alerts": {
+      "title": "Recent alerts",
+      "empty": "No alerts to display.",
+      "time": "Time",
+      "machine": "Machine",
+      "alertType": "Alert type",
+      "severity": "Severity",
+      "status": "Status"
+    },
+    "maintenance": {
+      "title": "Recent maintenance",
+      "empty": "No maintenance records from the API.",
+      "serviceDate": "Service date",
+      "plate": "Plate",
+      "serviceType": "Type",
+      "description": "Description",
+      "costPen": "Cost (PEN)",
+      "nextService": "Next service",
+      "types": {
+        "oil_change": "Oil change",
+        "filter": "Filters",
+        "tires": "Tires",
+        "general": "General"
+      }
+    },
+    "severity": {
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "status": {
+      "active": "Active",
+      "resolved": "Resolved"
+    }
+  },
+  "assetManagement": {
+    "title": "Asset Management",
+    "intro": "Register machinery, attach evidence, link IoT nodes and technical specs.",
+    "fleetTable": "Fleet machines",
+    "table": {
+      "id": "ID",
+      "machine": "Machine",
+      "status": "Status",
+      "fuel": "Fuel",
+      "location": "Location"
+    },
+    "machineStatus": {
+      "active": "Active",
+      "warning": "Warning",
+      "idle": "Idle",
+      "resolved": "Resolved"
+    },
+    "fuelLevel": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low",
+      "warning": "Warning"
+    },
+    "pagination": {
+      "summary": "Showing {{from}} – {{to}} of {{total}} machines"
+    },
+    "addMachine": "Add machinery",
+    "loadError": "Could not load machinery from MockAPI. Check that the `machinery` resource exists on the asset-management project (see mock-api-bases.ts).",
+    "emptyFleet": "No machines yet. Add one with the button above, or create records in MockAPI.",
+    "addDialog": {
+      "title": "New machinery",
+      "operatorId": "Operator ID",
+      "plate": "Plate number",
+      "brand": "Brand",
+      "model": "Model",
+      "fuelType": "Fuel type",
+      "fuelDiesel": "Diesel",
+      "fuelGasoline": "Gasoline",
+      "tank": "Tank capacity (L)",
+      "status": "Fleet status",
+      "statusActive": "Active",
+      "statusInactive": "Inactive",
+      "statusMaintenance": "Maintenance",
+      "imageUrl": "Image URL (optional)",
+      "cancel": "Cancel",
+      "save": "Save",
+      "success": "Machinery registered.",
+      "error": "Could not create machinery. Check MockAPI fields and your network."
+    }
+  },
+  "telemetry": {
+    "title": "Telemetry & Tracking",
+    "intro": "Live GPS, fuel variation and engine hours with historical comparison.",
+    "sensors": {
+      "fuelLevel": "Fuel level",
+      "engineTemp": "Engine temp.",
+      "rpm": "RPM",
+      "battery": "Battery"
+    },
+    "chart": {
+      "title": "Real-time telemetry",
+      "fuelSeries": "Fuel %",
+      "tempSeries": "Temp °C",
+      "batterySeries": "Battery %",
+      "hint": "Hover points for exact values. Click legend items to show or hide each series.",
+      "axisPercent": "Percent",
+      "axisTemp": "Temperature (°C)"
+    },
+    "timeline": {
+      "title": "Alert timeline",
+      "description": "Description",
+      "time": "Time",
+      "status": "Status",
+      "severity": "Severity"
+    },
+    "severity": {
+      "info": "Info",
+      "warning": "Warning",
+      "critical": "Critical"
+    },
+    "status": {
+      "active": "Active",
+      "resolved": "Resolved"
+    }
+  },
+  "reports": {
+    "title": "Reports & Analytics",
+    "intro": "Compare fleet utilization, alert mix and efficiency trends. Filters apply to the demo dataset only.",
+    "export": {
+      "pdf": "Export PDF",
+      "excel": "Export Excel",
+      "demoPdf": "PDF export will connect to the reporting API later.",
+      "demoExcel": "Excel export will connect to the reporting API later."
+    },
+    "filters": {
+      "dateRange": "Date range",
+      "project": "Project",
+      "machine": "Machine",
+      "optLast7": "Last 7 days",
+      "optLast30": "Last 30 days",
+      "optLast90": "Last 90 days",
+      "optAllProjects": "All projects",
+      "optProjectA": "Project Alpha",
+      "optProjectB": "Project Beta",
+      "optAllMachines": "All machines",
+      "optExcavators": "Excavators only",
+      "optLoaders": "Loaders only"
+    },
+    "charts": {
+      "fleetTitle": "Fleet hours by month",
+      "statusTitle": "Fleet status distribution",
+      "weeklyTitle": "Efficiency trend (weekly)",
+      "trendTitle": "Alert volume by severity",
+      "excavators": "Excavators",
+      "loaders": "Loaders",
+      "cranes": "Cranes",
+      "monthJan": "Jan",
+      "monthFeb": "Feb",
+      "monthMar": "Mar",
+      "monthApr": "Apr",
+      "statusActive": "Active",
+      "statusIdle": "Idle",
+      "statusMaintenance": "Maintenance",
+      "statusOffline": "Offline",
+      "efficiencySeries": "Efficiency index",
+      "severityCritical": "Critical",
+      "severityWarning": "Warning",
+      "severityInfo": "Info",
+      "alertVolume": "Alert volume"
+    },
+    "period": {
+      "title": "Period summary",
+      "totalFuel": "Total fuel used",
+      "avgEfficiency": "Avg. efficiency",
+      "activeHours": "Active hours",
+      "alertsResolved": "Alerts resolved",
+      "costSavings": "Cost savings"
+    }
+  },
+  "performance": {
+    "title": "Optimization & Performance",
+    "intro": "KPIs derived from MockAPI (alerts, telemetry, machinery, operators), plus recent performance alerts and the operator roster.",
+    "metrics": {
+      "idleShare": "Excessive idle share",
+      "idleShareHint": "Idle-excess alerts ÷ fleet size (machinery count).",
+      "operatorCoverage": "Active operator coverage",
+      "operatorCoverageHint": "Share of operators marked active in /operators.",
+      "fuelDelta": "Fuel level vs. plan",
+      "fuelDeltaHint": "Average telemetry fuel % minus a 75% reference baseline."
+    },
+    "actions": {
+      "refresh": "Refresh from API"
+    },
+    "loadError": "Could not reach one or more performance APIs. Check mock bases and network.",
+    "loadEmpty": "All performance endpoints returned empty lists. Seed MockAPI or verify URLs.",
+    "alertsSection": "Recent performance alerts",
+    "operatorsSection": "Operator roster",
+    "emptyAlerts": "No idle / fuel / maintenance / geofence alerts to show.",
+    "emptyOperators": "No operators returned from the API.",
+    "table": {
+      "time": "Time",
+      "machine": "Unit",
+      "type": "Type",
+      "severity": "Severity",
+      "opName": "Name",
+      "opLicense": "License",
+      "opPhone": "Phone",
+      "opStatus": "Status",
+      "actions": "Actions"
+    },
+    "alertType": {
+      "idle_excess": "Idle excess",
+      "fuel_theft": "Fuel anomaly",
+      "maintenance": "Maintenance",
+      "geofence": "Geofence"
+    },
+    "editOperator": {
+      "open": "Edit operator",
+      "title": "Edit operator",
+      "fullName": "Full name",
+      "phone": "Phone",
+      "save": "Save changes",
+      "cancel": "Cancel",
+      "success": "Operator updated.",
+      "error": "Could not save. Check MockAPI and fields."
+    },
+    "deleteOperator": {
+      "open": "Delete operator",
+      "title": "Delete operator",
+      "body": "Remove {{name}} from MockAPI? This cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel",
+      "success": "Operator deleted.",
+      "error": "Could not delete. Check if the operator is still linked to machinery."
+    }
+  },
+  "configuration": {
+    "title": "Configuration & Support",
+    "intro": "Local preferences, a live snapshot from MockAPI (fleet, IoT, maintenance, subscriptions), and documentation links.",
+    "actions": {
+      "refreshApi": "Refresh API snapshot",
+      "addIotNode": "Add IoT node",
+      "addMaintenance": "Add maintenance record"
+    },
+    "sections": {
+      "account": "Account",
+      "apiSummary": "Fleet & infrastructure (API)",
+      "subscriptionsSection": "Subscriptions",
+      "notifications": "Critical notifications",
+      "docs": "Hardware documentation"
+    },
+    "accountTeaser": "Open your profile to see role, contact data, operator link and sign out.",
+    "accountLink": "Go to my account",
+    "api": {
+      "empty": "All configuration-related endpoints returned empty data. Seed machinery, iotNodes, maintenanceRecords or subscriptions in MockAPI.",
+      "machineryTotal": "Machinery (total)",
+      "machineryActive": "Active units",
+      "machineryMaint": "In maintenance",
+      "iotTotal": "IoT nodes",
+      "iotOnline": "Nodes online",
+      "maintTotal": "Maintenance records",
+      "maintDueSoon": "Next service ≤ 30 days"
+    },
+    "subscriptionTable": {
+      "colId": "ID",
+      "colDetail": "Plan / status"
+    },
+    "toggles": {
+      "theftAlerts": "Theft / sudden fuel-drop alerts",
+      "emailDigest": "Daily email digest"
+    },
+    "links": {
+      "iotGuide": "Open IoT node setup (PDF placeholder)",
+      "support": "Contact support"
+    },
+    "addIot": {
+      "title": "Register IoT node",
+      "machineryId": "Machinery",
+      "machineryHint": "Links the node to a machine from MockAPI.",
+      "nodeIdentifier": "Node identifier",
+      "firmwareVersion": "Firmware version",
+      "batteryVoltage": "Battery (V)",
+      "connectionStatus": "Connection",
+      "online": "Online",
+      "offline": "Offline",
+      "lastSeen": "Last seen (ISO)",
+      "lastSeenHint": "Example: full ISO timestamp from the device.",
+      "noMachinery": "No machinery returned from the API. Create at least one machine under Asset management first.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "success": "IoT node created.",
+      "error": "Could not create the IoT node. Check MockAPI and try again."
+    },
+    "addMaint": {
+      "title": "Register maintenance",
+      "machineryId": "Machinery",
+      "serviceType": "Service type",
+      "typeOil": "Oil change",
+      "typeFilter": "Filter",
+      "typeTires": "Tires",
+      "typeGeneral": "General",
+      "description": "Description",
+      "costPen": "Cost (PEN)",
+      "engineHours": "Engine hours at service",
+      "serviceDate": "Service date",
+      "nextServiceDate": "Next service date",
+      "nextHint": "Used for “next service ≤ 30 days” in the summary.",
+      "noMachinery": "No machinery returned from the API. Create at least one machine under Asset management first.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "success": "Maintenance record created.",
+      "error": "Could not create the maintenance record. Check MockAPI and try again."
+    }
+  }
+}
