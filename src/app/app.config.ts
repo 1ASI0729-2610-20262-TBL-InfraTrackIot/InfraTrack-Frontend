@@ -3,10 +3,17 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter } from '@angular/router';
 import { provideTranslateService } from '@ngx-translate/core';
-import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { seedPreviewProfileUserId } from './iam/application/iam.service';
 import { routes } from './app.routes';
+
+import { HttpClient } from '@angular/common/http';
+import { TranslateLoader } from '@ngx-translate/core';
+
+export function httpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './i18n/', '.json');
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,9 +25,12 @@ export const appConfig: ApplicationConfig = {
     }),
     provideRouter(routes),
     provideTranslateService({
-      loader: provideTranslateHttpLoader({ prefix: './i18n/', suffix: '.json' }),
-      fallbackLang: 'en',
-      lang: 'en',
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpLoaderFactory,
+        deps: [HttpClient],
+      },
     }),
   ],
 };

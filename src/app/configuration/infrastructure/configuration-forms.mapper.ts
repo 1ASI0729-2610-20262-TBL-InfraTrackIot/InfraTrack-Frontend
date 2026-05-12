@@ -2,7 +2,7 @@ import {
   IotNodeApiDto,
   MaintenanceRecordApiDto,
   MaintenanceServiceType,
-} from '../../shared/infrastructure/dto/infratrack-api.dto';
+} from '../../shared/infratrack-api.dto';
 
 export function buildCreateIotNodeBody(input: {
   machineryId: number;

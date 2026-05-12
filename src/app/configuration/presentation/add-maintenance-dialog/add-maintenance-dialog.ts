@@ -19,11 +19,11 @@ import { catchError, finalize, of, take } from 'rxjs';
 
 import { ConfigurationStore } from '../../application/configuration.store';
 import { buildCreateMaintenanceBody } from '../../infrastructure/configuration-forms.mapper';
-import { INFRATRACK_API } from '../../../shared/config/infratrack-api.urls';
+import { INFRATRACK_API } from '../../../shared/infratrack-api.urls';
 import {
   MachineryApiDto,
   MaintenanceServiceType,
-} from '../../../shared/infrastructure/dto/infratrack-api.dto';
+} from '../../../shared/infratrack-api.dto';
 
 @Component({
   selector: 'app-add-maintenance-dialog',

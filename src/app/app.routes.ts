@@ -8,13 +8,13 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () =>
-      import('./shared/presentation/components/shell-layout/shell-layout').then((m) => m.ShellLayout),
+      import('./shared/shell-layout').then((m) => m.ShellLayout),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'control-panel' },
       {
         path: 'control-panel',
         loadComponent: () =>
-          import('./control-panel/presentation/control-panel-view/control-panel-view').then(
+          import('./control-panel/control-panel-view').then(
             (m) => m.ControlPanelView,
           ),
       },
@@ -52,7 +52,7 @@ export const routes: Routes = [
       {
         path: 'profile',
         loadComponent: () =>
-          import('./shared/presentation/profile-page/profile-page').then((m) => m.ProfilePage),
+          import('./shared/profile-page').then((m) => m.ProfilePage),
       },
     ],
   },

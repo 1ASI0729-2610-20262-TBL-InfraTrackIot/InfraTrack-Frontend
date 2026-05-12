@@ -3,13 +3,13 @@ import { inject, Injectable, signal } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 
-import { INFRATRACK_API } from '../../shared/config/infratrack-api.urls';
+import { INFRATRACK_API } from '../../shared/infratrack-api.urls';
 import {
   AlertApiDto,
   MachineryApiDto,
   OperatorApiDto,
   TelemetryDataApiDto,
-} from '../../shared/infrastructure/dto/infratrack-api.dto';
+} from '../../shared/infratrack-api.dto';
 import { EfficiencySnapshot } from '../domain/model/efficiency-snapshot.model';
 import {
   buildOperatorRows,

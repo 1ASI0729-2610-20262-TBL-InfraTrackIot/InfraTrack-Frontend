@@ -3,8 +3,8 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, finalize, map, tap } from 'rxjs/operators';
 
-import { INFRATRACK_API } from '../../shared/config/infratrack-api.urls';
-import { MachineryApiDto } from '../../shared/infrastructure/dto/infratrack-api.dto';
+import { INFRATRACK_API } from '../../shared/infratrack-api.urls';
+import { MachineryApiDto } from '../../shared/infratrack-api.dto';
 import { Machine } from '../domain/model/machine.entity';
 import { CreateMachineryBody, machineryDtoToMachine } from '../infrastructure/machinery.mapper';
 

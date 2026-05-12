@@ -8,7 +8,7 @@ import { MatInput } from '@angular/material/input';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { IamService } from '../../application/iam.service';
-import { LanguageSwitcher } from '../../../shared/presentation/components/language-switcher/language-switcher';
+import { LanguageSwitcher } from '../../../shared/language-switcher';
 
 @Component({
   selector: 'app-login-page',

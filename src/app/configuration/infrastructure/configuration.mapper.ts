@@ -2,7 +2,7 @@ import {
   IotNodeApiDto,
   MachineryApiDto,
   MaintenanceRecordApiDto,
-} from '../../shared/infrastructure/dto/infratrack-api.dto';
+} from '../../shared/infratrack-api.dto';
 
 export interface FleetApiSummary {
   machineryTotal: number;

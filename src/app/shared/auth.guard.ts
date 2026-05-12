@@ -3,13 +3,13 @@ import { CanActivateFn, Router } from '@angular/router';
 import { IamService } from '../iam/application/iam.service';
 
 /**
- * Para rutas “solo invitado” (p. ej. login). Úsalo cuando registres `path: 'login'` en `app.routes.ts`.
+ * Para rutas protegidas.
  */
-export const guestGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = () => {
   const auth = inject(IamService);
   const router = inject(Router);
-  if (!auth.isAuthenticated()) {
+  if (auth.isAuthenticated()) {
     return true;
   }
-  return router.createUrlTree(['/control-panel']);
+  return router.createUrlTree(['/login']);
 };
