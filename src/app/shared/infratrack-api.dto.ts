@@ -1,18 +1,81 @@
-/**
- * Bases MockAPI.io acordadas para InfraTrack.
- * Angular no lee `.env` por defecto: ajusta aquí las URLs o alinea con `.env.desarrollo`.
- *
- * **Usuarios y operadores** usan `identity` (GET `/users`, `/operators`) → proyecto MockAPI
- * `InfraTrack_us_op` (misma base que `operations` aquí).
- */
-export const MOCK_API_BASE_URLS = {
-  controlPanel: 'https://6a02a9550d92f63dd253e48d.mockapi.io/api/v1',
-  assetManagement: 'https://6a02a7340d92f63dd253e0e6.mockapi.io/api/v1',
-  telemetry: 'https://6a02a70a0d92f63dd253e074.mockapi.io/api/v1',
-  operations: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
-  subscriptions: 'https://69fb34c188a7af0ecca8aca0.mockapi.io/api/v1',
-  /** users + operators (MockAPI proyecto InfraTrack_us_op). */
-  identity: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
-} as const;
+export type UserRole = 'admin' | 'owner' | 'technician';
 
-export type MockApiBaseKey = keyof typeof MOCK_API_BASE_URLS;
+export interface UserApiDto {
+  id: number;
+  username: string;
+  email: string;
+  passwordHash: string;
+  role: UserRole | string;
+  isActive: boolean;
+  createdAt: string;
+}
+
+export interface OperatorApiDto {
+  id: number;
+  userId: number;
+  fullName: string;
+  licenseNumber: string;
+  phone: string;
+  status: 'active' | 'inactive' | string;
+}
+
+export interface MachineryApiDto {
+  id: number;
+  operatorId: number;
+  plateNumber: string;
+  model: string;
+  brand: string;
+  fuelType: 'diesel' | 'gasoline' | string;
+  tankCapacityLiters: number;
+  currentStatus: 'active' | 'inactive' | 'maintenance' | string;
+  imageUrl: string;
+  createdAt: string;
+}
+
+export interface IotNodeApiDto {
+  id: number;
+  machineryId: number;
+  nodeIdentifier: string;
+  firmwareVersion: string;
+  batteryVoltage: number;
+  connectionStatus: 'online' | 'offline' | string;
+  lastSeen: string;
+}
+
+export interface TelemetryDataApiDto {
+  id: number;
+  nodeId: number;
+  fuelLevel: number;
+  fuelLevelPct: number;
+  longitude: number;
+  latitude: number;
+  engineHours: number;
+  speedKmh: number;
+  engineOn: boolean;
+  recordedAt: string;
+}
+
+export type AlertType = 'fuel_theft' | 'idle_excess' | 'maintenance' | 'geofence' | string;
+
+export interface AlertApiDto {
+  id: number;
+  machineryId: number;
+  type: AlertType;
+  severity: 'critical' | 'warning' | string;
+  description: string;
+  isAcknowledged: boolean;
+  timestamp: string;
+}
+
+export type MaintenanceServiceType = 'oil_change' | 'filter' | 'tires' | 'general' | string;
+
+export interface MaintenanceRecordApiDto {
+  id: number;
+  machineryId: number;
+  serviceType: MaintenanceServiceType;
+  description: string;
+  costPen: number;
+  engineHoursAtService: number;
+  serviceDate: string;
+  nextServiceDate: string;
+}

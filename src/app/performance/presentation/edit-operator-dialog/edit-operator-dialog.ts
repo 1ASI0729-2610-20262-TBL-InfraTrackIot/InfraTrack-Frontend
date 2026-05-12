@@ -17,7 +17,7 @@ import { take } from 'rxjs';
 
 import { PerformanceStore } from '../../application/performance.store';
 import { PerformanceOperatorVm } from '../../infrastructure/performance.mapper';
-import { OperatorApiDto } from '../../../shared/infrastructure/dto/infratrack-api.dto';
+import { OperatorApiDto } from '../../../shared/infratrack-api.dto';
 
 export interface EditOperatorDialogData {
   operator: PerformanceOperatorVm;

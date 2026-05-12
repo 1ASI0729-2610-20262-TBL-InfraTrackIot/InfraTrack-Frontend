@@ -3,14 +3,29 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
-import { INFRATRACK_API } from '../config/infratrack-api.urls';
-import { OperatorApiDto, UserApiDto, UserRole } from '../infrastructure/dto/infratrack-api.dto';
+import { INFRATRACK_API } from './infratrack-api.urls';
+import { OperatorApiDto, UserApiDto, UserRole } from './infratrack-api.dto';
 import {
   normalizeUserDto,
   pickOperatorForUser,
   pickUserFromList,
 } from './user-profile.normalize';
-import { assignRandomPreviewUserId, IamService } from '../../iam/application/iam.service';
+import { assignRandomPreviewUserId, IamService } from '../iam/application/iam.service';
+
+/**
+ * Bases MockAPI.io acordadas para InfraTrack.
+ */
+export const MOCK_API_BASE_URLS = {
+  controlPanel: 'https://6a02a9550d92f63dd253e48d.mockapi.io/api/v1',
+  assetManagement: 'https://6a02a7340d92f63dd253e0e6.mockapi.io/api/v1',
+  telemetry: 'https://6a02a70a0d92f63dd253e074.mockapi.io/api/v1',
+  operations: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
+  subscriptions: 'https://69fb34c188a7af0ecca8aca0.mockapi.io/api/v1',
+  identity: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
+} as const;
+
+export type MockApiBaseKey = keyof typeof MOCK_API_BASE_URLS;
+
 
 const DEMO_ROLES: UserRole[] = ['admin', 'owner', 'technician'];
 

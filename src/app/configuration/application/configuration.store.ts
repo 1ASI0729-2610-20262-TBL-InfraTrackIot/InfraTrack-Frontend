@@ -3,12 +3,12 @@ import { inject, Injectable, signal } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-import { INFRATRACK_API } from '../../shared/config/infratrack-api.urls';
+import { INFRATRACK_API } from '../../shared/infratrack-api.urls';
 import {
   IotNodeApiDto,
   MachineryApiDto,
   MaintenanceRecordApiDto,
-} from '../../shared/infrastructure/dto/infratrack-api.dto';
+} from '../../shared/infratrack-api.dto';
 import { buildConfigurationDashboard, ConfigurationDashboardVm } from '../infrastructure/configuration.mapper';
 
 @Injectable({ providedIn: 'root' })

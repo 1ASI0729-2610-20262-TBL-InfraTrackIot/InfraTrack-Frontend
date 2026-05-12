@@ -1,4 +1,4 @@
-import { MachineryApiDto } from '../../shared/infrastructure/dto/infratrack-api.dto';
+import { MachineryApiDto } from '../../shared/infratrack-api.dto';
 import { Machine, MachineFuelLevel, MachineOperationalStatus } from '../domain/model/machine.entity';
 
 function coerceId(v: unknown): number {

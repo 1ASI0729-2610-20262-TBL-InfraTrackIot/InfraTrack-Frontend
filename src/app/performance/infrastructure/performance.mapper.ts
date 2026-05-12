@@ -3,7 +3,7 @@ import {
   MachineryApiDto,
   OperatorApiDto,
   TelemetryDataApiDto,
-} from '../../shared/infrastructure/dto/infratrack-api.dto';
+} from '../../shared/infratrack-api.dto';
 import { EfficiencySnapshot } from '../domain/model/efficiency-snapshot.model';
 
 export interface PerformanceAlertVm {

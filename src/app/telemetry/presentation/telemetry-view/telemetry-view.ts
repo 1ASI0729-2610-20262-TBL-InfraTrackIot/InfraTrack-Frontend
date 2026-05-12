@@ -170,7 +170,7 @@ export class TelemetryView {
           tooltip: {
             intersect: false,
             callbacks: {
-              label: (ctx) => {
+              label: (ctx: any) => {
                 const raw = ctx.parsed.y;
                 if (raw === null || raw === undefined) {
                   return '';
@@ -199,7 +199,7 @@ export class TelemetryView {
               display: true,
               text: this.translate.instant('telemetry.chart.axisPercent'),
             },
-            ticks: { callback: (v) => `${v}` },
+            ticks: { callback: (v: any) => `${v}` },
           },
           y1: {
             type: 'linear',
