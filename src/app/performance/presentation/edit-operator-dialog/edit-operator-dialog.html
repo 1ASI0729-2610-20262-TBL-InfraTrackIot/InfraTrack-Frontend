@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ 'performance.editOperator.title' | translate }}</h2>
+
+<mat-dialog-content class="eod">
+  <p class="eod__meta">{{ data.operator.licenseNumber }}</p>
+  <form [formGroup]="form" class="eod__form">
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'performance.editOperator.fullName' | translate }}</mat-label>
+      <input matInput formControlName="fullName" autocomplete="name" />
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>{{ 'performance.editOperator.phone' | translate }}</mat-label>
+      <input matInput formControlName="phone" type="tel" autocomplete="tel" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" mat-dialog-close>{{ 'performance.editOperator.cancel' | translate }}</button>
+  <button mat-flat-button color="primary" type="button" (click)="save()">
+    {{ 'performance.editOperator.save' | translate }}
+  </button>
+</mat-dialog-actions>
