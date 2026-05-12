@@ -1,7 +1,7 @@
 <div class="control-panel-wrapper">
-  <h1>Control Panel</h1>
+  <h1>{{ 'nav.controlPanel' | translate }}</h1>
   @if (store.loading()) {
-    <p>Loading...</p>
+    <p>{{ 'controlPanel.load.loading' | translate }}</p>
   }
   @if (store.loadError()) {
     <p class="error">{{ store.loadError() }}</p>

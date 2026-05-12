@@ -1,1 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+:root {
+  --it-yellow: #FFC107;
+  --it-yellow-hover: #FFB300;
+  --it-dark: #121212;
+  --it-dark-surface: #1E1E1E;
+  --it-text-light: #E0E0E0;
+  --it-text-muted: #9E9E9E;
+  --it-border: rgba(255, 255, 255, 0.1);
+  --it-sidebar-width: 280px;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #F5F7FA;
+  height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
