@@ -13,6 +13,7 @@
     "profile": "Cuenta"
   },
   "common": {
+    "welcome": "Bienvenido a InfraTrack",
     "searchPlaceholder": "Buscar por ID, placa o…",
     "emergency": "Emergencia",
     "notifications": "Notificaciones",

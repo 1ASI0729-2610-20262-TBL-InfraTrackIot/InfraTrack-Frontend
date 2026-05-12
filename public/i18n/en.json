@@ -13,6 +13,7 @@
     "profile": "Account"
   },
   "common": {
+    "welcome": "Welcome to InfraTrack",
     "searchPlaceholder": "Search by ID, plate or…",
     "emergency": "Emergency",
     "notifications": "Notifications",
