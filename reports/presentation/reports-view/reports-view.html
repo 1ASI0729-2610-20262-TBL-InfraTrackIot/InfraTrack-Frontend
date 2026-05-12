@@ -1,0 +1,103 @@
+<section #pageWrap class="reports-page">
+  <div class="reports-head">
+    <div>
+      <h1 class="it-page-title">{{ 'reports.title' | translate }}</h1>
+      <p class="it-page-intro">{{ 'reports.intro' | translate }}</p>
+    </div>
+    <div class="reports-actions">
+      <button mat-stroked-button type="button" color="primary" (click)="exportReport('pdf')">
+        <mat-icon>picture_as_pdf</mat-icon>
+        {{ 'reports.export.pdf' | translate }}
+      </button>
+      <button mat-stroked-button type="button" color="primary" (click)="exportReport('excel')">
+        <mat-icon>table_chart</mat-icon>
+        {{ 'reports.export.excel' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="reports-filters">
+    <mat-form-field appearance="outline" class="reports-filters__field">
+      <mat-label>{{ 'reports.filters.dateRange' | translate }}</mat-label>
+      <mat-select [value]="store.dateRange()" (selectionChange)="store.setDateRange($event.value)">
+        @for (opt of dateOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.labelKey | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="reports-filters__field">
+      <mat-label>{{ 'reports.filters.project' | translate }}</mat-label>
+      <mat-select [value]="store.project()" (selectionChange)="store.setProject($event.value)">
+        @for (opt of projectOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.labelKey | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="reports-filters__field">
+      <mat-label>{{ 'reports.filters.machine' | translate }}</mat-label>
+      <mat-select [value]="store.machine()" (selectionChange)="store.setMachine($event.value)">
+        @for (opt of machineOptions; track opt.value) {
+          <mat-option [value]="opt.value">{{ opt.labelKey | translate }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="reports-chart-grid">
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'reports.charts.fleetTitle' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-surface">
+          <canvas #chartFleet></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'reports.charts.statusTitle' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-surface chart-surface--donut">
+          <canvas #chartStatus></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'reports.charts.weeklyTitle' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-surface">
+          <canvas #chartWeekly></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'reports.charts.trendTitle' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="chart-surface">
+          <canvas #chartTrend></canvas>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <h2 class="it-section-title">{{ 'reports.period.title' | translate }}</h2>
+  <div class="reports-kpi-row">
+    @for (m of store.periodMetrics(); track m.metricId) {
+      <mat-card class="kpi-tile" [class]="'kpi-tile--' + m.accent">
+        <mat-card-content class="kpi-tile__inner">
+          <mat-icon class="kpi-tile__icon">{{ m.icon }}</mat-icon>
+          <div class="kpi-tile__meta">
+            <span class="kpi-tile__label">{{ m.labelKey | translate }}</span>
+            <span class="kpi-tile__value">{{ m.valueDisplay }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    }
+  </div>
+</section>
