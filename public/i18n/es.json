@@ -12,6 +12,36 @@
     "configuration": "Configuración y soporte",
     "profile": "Cuenta"
   },
+  "login": {
+    "brandDescription": "Plataforma empresarial de gestión logística y telemetría avanzada. Monitoreo en tiempo real para flotas de alto rendimiento.",
+    "welcomeTitle": "Bienvenido a InfraTrack",
+    "welcomeSubtitle": "Selecciona un perfil para ingresar a la plataforma (Modo Demo)",
+    "roleOwnerTitle": "Dueño de empresa",
+    "roleOwnerName": "Roberto Mendoza",
+    "roleOwnerDesc": "Vista estratégica · KPIs · reportes · ROI",
+    "badgeOwner": "owner",
+    "roleAdminTitle": "Administrador logístico",
+    "roleAdminName": "Carlos Vizcarra",
+    "roleAdminDesc": "Operación diaria · mapa · alertas · mantenimiento",
+    "badgeAdmin": "admin",
+    "footnote": "InfraTrack · Enterprise Edition",
+    "title": "Iniciar sesión",
+    "subtitle": "Usa tus credenciales para acceder a la consola InfraTrack.",
+    "username": "Usuario",
+    "usernameHint": "En esta demo basta un valor no vacío.",
+    "password": "Contraseña",
+    "submit": "Ingresar",
+    "errorRequired": "Ingresa un usuario para continuar."
+  },
+  "shell": {
+    "navSection": "Rutas de navegación",
+    "toggleSidebarAria": "Mostrar u ocultar menú lateral",
+    "profileLogout": "Perfil / Cerrar sesión",
+    "ownerSubscription": "Suscripción",
+    "adminAlerts": "Alertas",
+    "adminIotNodes": "Nodos IoT",
+    "adminMaintenance": "Mantenimiento"
+  },
   "common": {
     "welcome": "Bienvenido a InfraTrack",
     "searchPlaceholder": "Buscar por ID, placa o…",
@@ -122,15 +152,6 @@
         "tagline": "Escala y soporte prioritario"
       }
     }
-  },
-  "login": {
-    "title": "Iniciar sesión",
-    "subtitle": "Usa tus credenciales para acceder a la consola InfraTrack.",
-    "username": "Usuario",
-    "usernameHint": "En esta demo basta un valor no vacío.",
-    "password": "Contraseña",
-    "submit": "Ingresar",
-    "errorRequired": "Ingresa un usuario para continuar."
   },
   "footer": {
     "notice": "InfraTrack — Proyecto académico open source (UPC)."
