@@ -11,6 +11,8 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { fromEvent } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import * as L from 'leaflet';
 
 import { GpsMapStore } from '../../application/gps-map.store';
@@ -48,6 +50,7 @@ export class TelemetryView implements OnInit {
 
   private map: L.Map | null = null;
   private layerGroup: L.LayerGroup | null = null;
+  private mapResizeObserver: ResizeObserver | null = null;
 
   ngOnInit(): void {
     this.gps.refresh();
@@ -68,8 +71,10 @@ export class TelemetryView implements OnInit {
       }
       if (!this.map) {
         this.map = L.map(el, { zoomControl: true }).setView([-12.06, -77.035], 11);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        // OSM deprecó el patrón {s}.tile.openstreetmap.org para apps web; usar el host estándar.
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution:
+            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
           maxZoom: 19,
         }).addTo(this.map);
         this.layerGroup = L.layerGroup().addTo(this.map);
@@ -80,8 +85,18 @@ export class TelemetryView implements OnInit {
           }
           this.zone.run(() => this.gps.selectMachinery(null));
         });
-        queueMicrotask(() => this.map?.invalidateSize());
-        setTimeout(() => this.map?.invalidateSize(), 400);
+        this.map.whenReady(() => {
+          queueMicrotask(() => this.map?.invalidateSize());
+          setTimeout(() => this.map?.invalidateSize(), 200);
+          setTimeout(() => this.map?.invalidateSize(), 800);
+        });
+        this.mapResizeObserver = new ResizeObserver(() => {
+          this.zone.run(() => this.map?.invalidateSize());
+        });
+        this.mapResizeObserver.observe(el);
+        fromEvent(window, 'resize')
+          .pipe(debounceTime(150), takeUntilDestroyed(this.destroyRef))
+          .subscribe(() => this.zone.run(() => this.map?.invalidateSize()));
       }
       this.renderMarkers(markers);
     });
@@ -139,6 +154,10 @@ export class TelemetryView implements OnInit {
   }
 
   private teardownMap(): void {
+    if (this.mapResizeObserver) {
+      this.mapResizeObserver.disconnect();
+      this.mapResizeObserver = null;
+    }
     this.layerGroup?.clearLayers();
     this.layerGroup = null;
     if (this.map) {
