@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 import { IamService } from '../../application/iam.service';
 import { LanguageSwitcher } from '../../../shared/language-switcher';
 
 @Component({
   selector: 'app-login-page',
-  imports: [LanguageSwitcher],
+  imports: [LanguageSwitcher, TranslatePipe],
   templateUrl: './login-page.html',
   styleUrl: './login-page.css',
 })

@@ -15,7 +15,7 @@ import { IamService } from '../iam/application/iam.service';
         
         <div class="sidebar-header">
           <div class="logo-container">
-            <img src="/imagenes/logo_infratrack-sinfondo.png" alt="InfraTrack Logo" class="logo-img" />
+            <img src="/imagenes/logo_infratrack-sinfondo.png" [attr.alt]="'app.title' | translate" class="logo-img" />
             <div class="logo-text">
               <span class="brand">INFRATRACK</span>
             </div>
@@ -25,27 +25,27 @@ import { IamService } from '../iam/application/iam.service';
         <div class="sidebar-scrollable">
           <ul class="nav-links">
             <!-- Título basado en la imagen -->
-            <li class="nav-section">RUTAS DE NAVEGACIÓN</li>
+            <li class="nav-section">{{ 'shell.navSection' | translate }}</li>
             
             <!-- Rutas compartidas (Dashboard, Mapa GPS, Maquinaria) -->
             <li>
               <a routerLink="/control-panel" routerLinkActive="active" class="nav-item">
                 <span class="nav-dot dot-blue"></span>
-                <span class="nav-text">Dashboard</span>
+                <span class="nav-text">{{ 'nav.controlPanel' | translate }}</span>
               </a>
             </li>
             
             <li>
               <a routerLink="/telemetry" routerLinkActive="active" class="nav-item">
                 <span class="nav-dot dot-blue"></span>
-                <span class="nav-text">Mapa GPS</span>
+                <span class="nav-text">{{ 'nav.telemetry' | translate }}</span>
               </a>
             </li>
 
             <li>
               <a routerLink="/asset-management" routerLinkActive="active" class="nav-item">
                 <span class="nav-dot dot-green"></span>
-                <span class="nav-text">Maquinaria</span>
+                <span class="nav-text">{{ 'nav.assetManagement' | translate }}</span>
               </a>
             </li>
 
@@ -54,13 +54,13 @@ import { IamService } from '../iam/application/iam.service';
               <li>
                 <a routerLink="/reports-analytics" routerLinkActive="active" class="nav-item">
                   <span class="nav-dot dot-orange"></span>
-                  <span class="nav-text">Reportes & Analytics</span>
+                  <span class="nav-text">{{ 'nav.reportsAnalytics' | translate }}</span>
                 </a>
               </li>
               <li>
                 <a routerLink="/configuration" routerLinkActive="active" class="nav-item">
                   <span class="nav-dot dot-purple"></span>
-                  <span class="nav-text">Suscripción</span>
+                  <span class="nav-text">{{ 'shell.ownerSubscription' | translate }}</span>
                 </a>
               </li>
             }
@@ -70,19 +70,19 @@ import { IamService } from '../iam/application/iam.service';
               <li>
                 <a routerLink="/reports-analytics" routerLinkActive="active" class="nav-item">
                   <span class="nav-dot dot-red"></span>
-                  <span class="nav-text">Alertas</span>
+                  <span class="nav-text">{{ 'shell.adminAlerts' | translate }}</span>
                 </a>
               </li>
               <li>
                 <a routerLink="/configuration" routerLinkActive="active" class="nav-item">
                   <span class="nav-dot dot-green-teal"></span>
-                  <span class="nav-text">Nodos IoT</span>
+                  <span class="nav-text">{{ 'shell.adminIotNodes' | translate }}</span>
                 </a>
               </li>
               <li>
                 <a routerLink="/performance" routerLinkActive="active" class="nav-item">
                   <span class="nav-dot dot-orange"></span>
-                  <span class="nav-text">Mantenimiento</span>
+                  <span class="nav-text">{{ 'shell.adminMaintenance' | translate }}</span>
                 </a>
               </li>
             }
@@ -95,7 +95,7 @@ import { IamService } from '../iam/application/iam.service';
             <li class="nav-bottom-item">
               <a routerLink="/profile" routerLinkActive="active" class="nav-item">
                 <span class="nav-dot dot-grey"></span>
-                <span class="nav-text">Perfil / Cerrar sesión</span>
+                <span class="nav-text">{{ 'shell.profileLogout' | translate }}</span>
               </a>
             </li>
           </ul>
@@ -105,7 +105,7 @@ import { IamService } from '../iam/application/iam.service';
       <div class="main-wrapper" [class.expanded]="!isSidebarOpen()">
         <header class="topbar">
           <div class="topbar-left">
-            <button class="menu-btn" (click)="toggleSidebar()" aria-label="Toggle Sidebar">
+            <button class="menu-btn" (click)="toggleSidebar()" [attr.aria-label]="'shell.toggleSidebarAria' | translate">
               <span class="material-icons-outlined">menu_open</span>
             </button>
             <span class="greeting">{{ 'common.welcome' | translate }} {{ iam.username() }}</span>

@@ -12,6 +12,36 @@
     "configuration": "Configuration & Support",
     "profile": "Account"
   },
+  "login": {
+    "brandDescription": "Enterprise platform for logistics management and advanced telemetry. Real-time monitoring for high-performance fleets.",
+    "welcomeTitle": "Welcome to InfraTrack",
+    "welcomeSubtitle": "Select a profile to enter the platform (Demo Mode)",
+    "roleOwnerTitle": "Company owner",
+    "roleOwnerName": "Roberto Mendoza",
+    "roleOwnerDesc": "Strategic view · KPIs · reports · ROI",
+    "badgeOwner": "owner",
+    "roleAdminTitle": "Logistics administrator",
+    "roleAdminName": "Carlos Vizcarra",
+    "roleAdminDesc": "Daily operations · map · alerts · maintenance",
+    "badgeAdmin": "admin",
+    "footnote": "InfraTrack · Enterprise Edition",
+    "title": "Sign in",
+    "subtitle": "Use your credentials to access the InfraTrack console.",
+    "username": "Username",
+    "usernameHint": "Any non-empty value is accepted in this demo.",
+    "password": "Password",
+    "submit": "Enter",
+    "errorRequired": "Enter a username to continue."
+  },
+  "shell": {
+    "navSection": "Navigation routes",
+    "toggleSidebarAria": "Toggle sidebar",
+    "profileLogout": "Profile / Sign out",
+    "ownerSubscription": "Subscription",
+    "adminAlerts": "Alerts",
+    "adminIotNodes": "IoT nodes",
+    "adminMaintenance": "Maintenance"
+  },
   "common": {
     "welcome": "Welcome to InfraTrack",
     "searchPlaceholder": "Search by ID, plate or…",
@@ -122,15 +152,6 @@
         "tagline": "Scale and priority support"
       }
     }
-  },
-  "login": {
-    "title": "Sign in",
-    "subtitle": "Use your credentials to access the InfraTrack console.",
-    "username": "Username",
-    "usernameHint": "Any non-empty value is accepted in this demo.",
-    "password": "Password",
-    "submit": "Enter",
-    "errorRequired": "Enter a username to continue."
   },
   "footer": {
     "notice": "InfraTrack — Open Source academic project (UPC)."
