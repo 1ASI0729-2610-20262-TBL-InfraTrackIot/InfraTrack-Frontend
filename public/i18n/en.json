@@ -6,7 +6,7 @@
   "nav": {
     "controlPanel": "Control Panel",
     "assetManagement": "Asset Management",
-    "telemetry": "Telemetry & Tracking",
+    "telemetry": "GPS Map",
     "reportsAnalytics": "Reports & Analytics",
     "performance": "Optimization & Performance",
     "configuration": "Configuration & Support",
@@ -22,7 +22,11 @@
     "breadcrumbHome": "Home",
     "language": "Language",
     "demoEmergency": "Emergency channel activated (demo).",
-    "demoSearch": "Search will be wired to the backend in a later iteration."
+    "demoSearch": "Search will be wired to the backend in a later iteration.",
+    "httpPolicy": {
+      "demoNote": "Active policy: GET only on the wire + POST creates when allowed (`src/app/shared/infratrack-http-policy.ts`). PUT and DELETE are not sent; matching controls are shown disabled.",
+      "putDeleteUiDisabled": "Server save disabled: this demo does not use PUT. See `infratrack-http-policy.ts` and set `allowPutDelete: true` when your API supports it."
+    }
   },
   "profile": {
     "openProfilePage": "Open account page",
@@ -58,7 +62,66 @@
     "accountStatus": "Account",
     "accountActive": "Active",
     "accountInactive": "Inactive",
-    "offlineDemo": "Preview: MockAPI did not return this user; showing local demo data for the same ID."
+    "offlineDemo": "Preview: MockAPI did not return this user; showing local demo data for the same ID.",
+    "uiTitle": "My profile",
+    "uiIntro": "Manage your account and review your plan if you are the fleet owner.",
+    "loadingProfile": "Loading user data…",
+    "errorProfile": "Could not load the user profile.",
+    "demoUser": "Demo user",
+    "demoBadge": "Local fallback",
+    "emailLabel": "Email",
+    "logout": "Sign out",
+    "subscription": {
+      "sectionTitle": "Your subscription",
+      "sectionSubtitle": "Only visible when you sign in as owner. Data comes from the API.",
+      "updatePlan": "Update plan",
+      "fieldPlan": "Current plan",
+      "fieldPrice": "Price",
+      "fieldMax": "Max machinery",
+      "fieldStatus": "Status",
+      "fieldRenew": "Auto-renewal",
+      "fieldDates": "Validity",
+      "yes": "Yes",
+      "no": "No",
+      "noData": "We could not find a subscription linked to your user in the API.",
+      "noDataHint": "Open “Update plan” to compare tiers; choosing one updates the record when the server allows writes (PUT)."
+    }
+  },
+  "subscriptionPlans": {
+    "backProfile": "← Back to profile",
+    "title": "Subscription plans",
+    "intro": "Pick Basic, Premium, or Enterprise. Changes are saved with PUT when your environment allows it.",
+    "readOnlyHint": "Read-only: changing plan or auto-renew needs server write access (PUT). Ask your project admin to enable it in the HTTP policy if you use MockAPI.",
+    "currentTitle": "Current plan",
+    "chooseTitle": "Compare plans",
+    "fieldPlan": "Plan",
+    "fieldPrice": "Price",
+    "fieldMaxMachinery": "Max machinery",
+    "fieldStatus": "Status",
+    "fieldDates": "Dates",
+    "autoRenew": "Auto-renewal",
+    "perMonth": "/ month",
+    "maxMachinery": "Up to {{n}} units",
+    "selectPlan": "Choose this plan",
+    "currentBadge": "Current plan",
+    "noRecord": "No subscription record for your user. Create one in MockAPI or check the userId filter.",
+    "planSaved": "Plan updated.",
+    "planError": "Could not save. Check MockAPI and the HTTP policy.",
+    "autoRenewSaved": "Auto-renew preference saved.",
+    "plan": {
+      "basic": {
+        "name": "Basic",
+        "tagline": "Small fleets and pilots"
+      },
+      "premium": {
+        "name": "Premium",
+        "tagline": "Growing operations"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "tagline": "Scale and priority support"
+      }
+    }
   },
   "login": {
     "title": "Sign in",
@@ -74,7 +137,7 @@
   },
   "controlPanel": {
     "title": "Control Panel",
-    "intro": "Centralized view of fleet health and critical fuel alerts.",
+    "intro": "Live KPIs, telemetry on the map, Chart.js visuals, and the latest alerts with API acknowledgment.",
     "load": {
       "loading": "Loading fleet data…",
       "error": "Could not load dashboard data. Check your connection and try again.",
@@ -82,13 +145,14 @@
       "retry": "Refresh"
     },
     "kpis": {
-      "activeMachines": "Active machines",
-      "fuelAlerts": "Fuel alerts",
-      "idleMachines": "Idle machines",
-      "efficiencyRate": "Efficiency rate"
+      "activeMachines": "Total active machinery",
+      "criticalUnread": "Unread critical alerts",
+      "onlineNodes": "Online nodes",
+      "upcomingMaintenance": "Upcoming maintenance"
     },
     "map": {
-      "title": "GPS tracking overview",
+      "title": "Fleet mini-map",
+      "empty": "No telemetry positions available to plot on the map.",
       "legendActive": "Active",
       "legendWarning": "Warning",
       "legendIdle": "Idle",
@@ -109,9 +173,24 @@
         "idleBody": "Idle · Parked 42 min · Yard B"
       }
     },
+    "charts": {
+      "machineryStatus": "Machinery by status",
+      "nodesOnline": "IoT nodes (connection)",
+      "noData": "No data",
+      "legendActive": "Active",
+      "legendMaintenance": "In maintenance",
+      "legendInactive": "Inactive",
+      "legendOther": "Other statuses",
+      "legendOnline": "Online",
+      "legendOffline": "Offline",
+      "legendNodesOther": "Other status"
+    },
     "alerts": {
       "title": "Recent alerts",
+      "subtitle": "Last 5 alerts (newest first)",
       "empty": "No alerts to display.",
+      "acknowledge": "Acknowledge",
+      "ackError": "Could not acknowledge the alert. Please try again.",
       "time": "Time",
       "machine": "Machine",
       "alertType": "Alert type",
@@ -147,13 +226,6 @@
     "title": "Asset Management",
     "intro": "Register machinery, attach evidence, link IoT nodes and technical specs.",
     "fleetTable": "Fleet machines",
-    "table": {
-      "id": "ID",
-      "machine": "Machine",
-      "status": "Status",
-      "fuel": "Fuel",
-      "location": "Location"
-    },
     "machineStatus": {
       "active": "Active",
       "warning": "Warning",
@@ -172,6 +244,56 @@
     "addMachine": "Add machinery",
     "loadError": "Could not load machinery from MockAPI. Check that the `machinery` resource exists on the asset-management project (see mock-api-bases.ts).",
     "emptyFleet": "No machines yet. Add one with the button above, or create records in MockAPI.",
+    "emptyFilter": "No machines match the status or plate filter. Adjust your filters.",
+    "filter": {
+      "toolbarTitle": "Filter fleet",
+      "status": "Status (API)",
+      "all": "All",
+      "plate": "Search by plate"
+    },
+    "apiStatus": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "maintenance": "Maintenance"
+    },
+    "apiHint": {
+      "title": "Editing and deleting with MockAPI",
+      "body": "If your project has no per-item routes, the server returns 404 for PUT and DELETE on /machinery/:id. The app then saves edits and deletions in this browser’s localStorage and merges them into the table, so it can look like changes “don’t stick” compared to a raw GET from the server. Enable per-item routes on mockapi.io or use a full REST backend so everything persists server-side.",
+      "adminDelete": "The delete icon only shows when you are logged in with the administrator role."
+    },
+    "table": {
+      "id": "ID",
+      "machine": "Machine",
+      "status": "Status",
+      "fuel": "Fuel",
+      "location": "Location",
+      "actions": "Actions"
+    },
+    "action": {
+      "edit": "Edit machinery",
+      "delete": "Delete machinery"
+    },
+    "editDialog": {
+      "title": "Machine record & edit",
+      "createdAt": "Created",
+      "iotTitle": "IoT nodes (telemetry)",
+      "noNodes": "No nodes linked to this machine in /iotNodes.",
+      "operatorFallback": "Operator (ID only)",
+      "save": "Save changes",
+      "success": "Changes saved on the server.",
+      "savedLocalOnly": "MockAPI does not accept PUT /machinery/:id (404). Changes were saved in this browser (localStorage); GET /machinery will still show old data until the backend matches.",
+      "error": "Could not save changes.",
+      "notFound": "That machine was not found in the loaded list."
+    },
+    "deleteDialog": {
+      "title": "Delete machinery",
+      "message": "Are you sure you want to delete unit {{plate}}? This cannot be undone on the server.",
+      "cancel": "Cancel",
+      "confirm": "Delete",
+      "success": "Unit deleted on the server.",
+      "removedLocalOnly": "DELETE by id is not available on MockAPI (404). The unit was hidden only in this browser; it may reappear on another device or if the server still returns it.",
+      "error": "Could not delete. Check your network or MockAPI."
+    },
     "addDialog": {
       "title": "New machinery",
       "operatorId": "Operator ID",
@@ -194,8 +316,44 @@
     }
   },
   "telemetry": {
-    "title": "Telemetry & Tracking",
-    "intro": "Live GPS, fuel variation and engine hours with historical comparison.",
+    "title": "GPS Map",
+    "intro": "Interactive Leaflet map from /machinery and /telemetryData; side panel with IoT status and operator assignment (admin only).",
+    "map": {
+      "pageTitle": "GPS map",
+      "intro": "Each marker uses the latest telemetry position per IoT node. Click a pin to open the detail panel.",
+      "refresh": "Refresh data",
+      "pickMachine": "Click a colored circle on the map (each one is a machine) to see plate, telemetry and IoT details here.",
+      "close": "Close panel",
+      "loadError": "Could not load machinery, telemetry, or operators. Check your connection.",
+      "loadPartial": "Some API requests failed. The map may be incomplete — check the browser Network tab.",
+      "assignError": "Could not save to the server (non-404 error). Check Network or MockAPI.",
+      "assignLocalOnly": "Your MockAPI does not expose PUT /machinery/:id (returns 404). The operator change applies only in this session; reload restores server data. Enable per-item routes on mockapi.io or use a full REST backend.",
+      "operatorDistribution": "Machines per operator (current loaded fleet)",
+      "operatorRow": "{{name}}: {{count}} machine(s)",
+      "legendActive": "Active",
+      "legendMaintenance": "Maintenance",
+      "legendInactive": "Inactive",
+      "fuel": "Fuel level",
+      "engineHours": "Engine hours",
+      "speed": "Speed",
+      "telemetryTime": "Last telemetry",
+      "iotTitle": "IoT nodes",
+      "noNodes": "No linked nodes for this machine.",
+      "noOperators": "No operators returned from the API.",
+      "adminOnly": "Admin only",
+      "assignOperator": "Assign operator",
+      "machineState": {
+        "active": "Active",
+        "maintenance": "Maintenance",
+        "inactive": "Inactive",
+        "other": "Other"
+      },
+      "nodeStatus": {
+        "online": "Online",
+        "offline": "Offline",
+        "other": "Other"
+      }
+    },
     "sensors": {
       "fuelLevel": "Fuel level",
       "engineTemp": "Engine temp.",
@@ -238,6 +396,7 @@
       "demoExcel": "Excel export will connect to the reporting API later."
     },
     "filters": {
+      "toolbarCharts": "Chart filters (demo)",
       "dateRange": "Date range",
       "project": "Project",
       "machine": "Machine",
@@ -272,6 +431,48 @@
       "severityWarning": "Warning",
       "severityInfo": "Info",
       "alertVolume": "Alert volume"
+    },
+    "alertsCenter": {
+      "title": "Alert center",
+      "intro": "Data from GET /alerts. Filter by severity, type and acknowledgment. The toggle calls PUT /alerts/:id; if MockAPI returns 404, state is stored in this browser only.",
+      "loadError": "Could not load alerts. Check /alerts on the control-panel project (mock-api-bases).",
+      "ownerHint": "As an owner you only see alerts with critical severity.",
+      "filterSeverity": "Severity",
+      "filterType": "Type",
+      "filterAck": "Acknowledgment",
+      "optAll": "All",
+      "optAcknowledged": "Acknowledged",
+      "optPending": "Pending",
+      "colId": "Id",
+      "colTime": "Date / time",
+      "colMachine": "Machinery id",
+      "colType": "Type",
+      "colSeverity": "Severity",
+      "colDesc": "Description",
+      "colAck": "Acknowledged",
+      "empty": "No alerts match the current filters.",
+      "loginToAck": "Sign in to acknowledge or clear alerts.",
+      "ackLocalOnly": "PUT /alerts/:id is not available (404). Acknowledgment was saved in localStorage for this browser only.",
+      "ackError": "Could not update the alert.",
+      "createOpen": "New alert",
+      "createTitle": "Create alert (POST /alerts)",
+      "createSubmit": "Create",
+      "cancel": "Cancel",
+      "createSuccess": "Alert created.",
+      "createError": "Could not create the alert.",
+      "machineryId": "Machinery id",
+      "type": {
+        "fuel_theft": "Fuel / anomaly",
+        "idle_excess": "Excessive idle",
+        "maintenance": "Maintenance",
+        "geofence": "Geofence",
+        "other": "Other"
+      },
+      "sev": {
+        "critical": "Critical",
+        "warning": "Warning",
+        "other": "Other"
+      }
     },
     "period": {
       "title": "Period summary",
@@ -341,20 +542,21 @@
   },
   "configuration": {
     "title": "Configuration & Support",
-    "intro": "Local preferences, a live snapshot from MockAPI (fleet, IoT, maintenance, subscriptions), and documentation links.",
+    "intro": "Review fleet status, manage IoT nodes (admins), and check subscriptions. Data is loaded from the server when you open this page or tap refresh.",
     "actions": {
-      "refreshApi": "Refresh API snapshot",
+      "refreshApi": "Refresh data",
       "addIotNode": "Add IoT node",
       "addMaintenance": "Add maintenance record"
     },
     "sections": {
       "account": "Account",
-      "apiSummary": "Fleet & infrastructure (API)",
-      "subscriptionsSection": "Subscriptions",
-      "notifications": "Critical notifications",
-      "docs": "Hardware documentation"
+      "apiSummary": "Fleet overview",
+      "subscriptionsSection": "Subscriptions"
     },
-    "accountTeaser": "Open your profile to see role, contact data, operator link and sign out.",
+    "accountCardSubtitle": "Profile, role, and session",
+    "fleetCardSubtitle": "Figures based on the latest data from the server",
+    "subsCardSubtitle": "Recorded subscription plans",
+    "accountTeaser": "Open your profile to see role, contact data, linked operator, and sign out.",
     "accountLink": "Go to my account",
     "api": {
       "empty": "All configuration-related endpoints returned empty data. Seed machinery, iotNodes, maintenanceRecords or subscriptions in MockAPI.",
@@ -370,13 +572,29 @@
       "colId": "ID",
       "colDetail": "Plan / status"
     },
-    "toggles": {
-      "theftAlerts": "Theft / sudden fuel-drop alerts",
-      "emailDigest": "Daily email digest"
-    },
-    "links": {
-      "iotGuide": "Open IoT node setup (PDF placeholder)",
-      "support": "Contact support"
+    "iot": {
+      "sectionTitle": "IoT nodes",
+      "cardSubtitle": "Administrators only. Device status, register new hardware, and assign each node to a fleet unit.",
+      "emptyNodes": "No nodes yet. Add one with the button above or seed test data on the server.",
+      "nonAdmin": "This section is only available to administrators. Sign in with an admin account to manage IoT nodes.",
+      "colNodeId": "Identifier",
+      "colStatus": "Connection",
+      "colBattery": "Battery (V)",
+      "colLastSeen": "Last seen",
+      "colFirmware": "Firmware",
+      "colMachine": "Linked machine",
+      "colLink": "Assignment",
+      "chooseMachine": "Choose machine",
+      "saveLink": "Save",
+      "unlinkedMachine": "No matching machine",
+      "tableFoot": "Nodes are kept for history. Saving a new assignment is only available when the environment allows server writes.",
+      "linkSuccess": "Assignment saved.",
+      "linkError": "Could not save the assignment. Check connectivity and environment settings.",
+      "readOnlyHint": "Read-only: reassigning a node to another machine needs write access on the server. It is often off in the demo; your project admin can enable it in the HTTP policy.",
+      "status": {
+        "online": "Online",
+        "offline": "Offline"
+      }
     },
     "addIot": {
       "title": "Register IoT node",

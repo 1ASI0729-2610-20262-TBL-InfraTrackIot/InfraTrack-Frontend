@@ -4,7 +4,7 @@
       <h1 class="it-page-title">{{ 'assetManagement.title' | translate }}</h1>
       <p class="it-page-intro">{{ 'assetManagement.intro' | translate }}</p>
     </div>
-    <button mat-flat-button color="primary" type="button" class="add-btn" (click)="openAddMachinery()">
+    <button mat-flat-button color="primary" type="button" class="add-btn" (click)="openAddMachinery()" [disabled]="!store.httpPostEnabled()">
       <mat-icon>add</mat-icon>
       {{ 'assetManagement.addMachine' | translate }}
     </button>
@@ -19,6 +19,53 @@
     </mat-card>
   }
 
+  <mat-card class="filters-card" appearance="outlined">
+    <mat-card-content class="filters">
+      <div class="filters__head">
+        <mat-icon class="filters__head-icon" aria-hidden="true">tune</mat-icon>
+        <span class="filters__head-title">{{ 'assetManagement.filter.toolbarTitle' | translate }}</span>
+      </div>
+      <div class="filters__row">
+        <mat-form-field appearance="outline" class="filters__field" subscriptSizing="dynamic" floatLabel="always">
+          <mat-label>{{ 'assetManagement.filter.status' | translate }}</mat-label>
+          <mat-select
+            panelClass="fleet-select-panel"
+            [value]="store.statusFilter()"
+            (selectionChange)="store.setStatusFilter($event.value)"
+          >
+            <mat-option value="all">{{ 'assetManagement.filter.all' | translate }}</mat-option>
+            <mat-option value="active">{{ 'assetManagement.apiStatus.active' | translate }}</mat-option>
+            <mat-option value="inactive">{{ 'assetManagement.apiStatus.inactive' | translate }}</mat-option>
+            <mat-option value="maintenance">{{ 'assetManagement.apiStatus.maintenance' | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="filters__field filters__field--grow" subscriptSizing="dynamic" floatLabel="always">
+          <mat-label>{{ 'assetManagement.filter.plate' | translate }}</mat-label>
+          <input
+            matInput
+            type="search"
+            autocomplete="off"
+            [value]="store.plateQuery()"
+            (input)="onPlateInput($event)"
+          />
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="api-hint" appearance="outlined">
+    <mat-card-content class="api-hint__inner">
+      <mat-icon class="api-hint__icon" aria-hidden="true">cloud_sync</mat-icon>
+      <div class="api-hint__text">
+        <p class="api-hint__title">{{ 'assetManagement.apiHint.title' | translate }}</p>
+        <p class="api-hint__body">{{ 'assetManagement.apiHint.body' | translate }}</p>
+        @if (!store.httpPostEnabled() || !store.httpPutDeleteEnabled()) {
+          <p class="api-hint__policy">{{ 'common.httpPolicy.demoNote' | translate }}</p>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+
   <mat-card class="table-card">
     <mat-card-header class="table-card__head">
       <mat-card-title>{{ 'assetManagement.fleetTable' | translate }}</mat-card-title>
@@ -27,10 +74,15 @@
       }
     </mat-card-header>
     <mat-card-content>
-      @if (!store.loading() && store.totalCount() === 0) {
+      @if (!store.loading() && store.totalCount() === 0 && !store.emptyBecauseFilter()) {
         <div class="empty-fleet">
           <mat-icon aria-hidden="true">precision_manufacturing</mat-icon>
           <p>{{ 'assetManagement.emptyFleet' | translate }}</p>
+        </div>
+      } @else if (!store.loading() && store.emptyBecauseFilter()) {
+        <div class="empty-fleet">
+          <mat-icon aria-hidden="true">filter_alt_off</mat-icon>
+          <p>{{ 'assetManagement.emptyFilter' | translate }}</p>
         </div>
       } @else {
         <table mat-table [dataSource]="store.page()" class="fleet-table">
@@ -62,18 +114,41 @@
             <th mat-header-cell *matHeaderCellDef>{{ 'assetManagement.table.location' | translate }}</th>
             <td mat-cell *matCellDef="let row">{{ row.locationLabel }}</td>
           </ng-container>
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="col-actions">{{ 'assetManagement.table.actions' | translate }}</th>
+            <td mat-cell *matCellDef="let row" class="col-actions">
+              <button mat-icon-button type="button" (click)="openEdit(row)" [disabled]="!store.httpPutDeleteEnabled()" [attr.aria-label]="'assetManagement.action.edit' | translate">
+                <mat-icon>edit</mat-icon>
+              </button>
+              @if (iam.isAdmin()) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  color="warn"
+                  (click)="openDeleteConfirm(row)"
+                  [disabled]="!store.httpPutDeleteEnabled()"
+                  [attr.aria-label]="'assetManagement.action.delete' | translate"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+            </td>
+          </ng-container>
           <tr mat-header-row *matHeaderRowDef="columns"></tr>
           <tr mat-row *matRowDef="let row; columns: columns"></tr>
         </table>
       }
-      <mat-paginator
-        [length]="store.totalCount()"
-        [pageIndex]="store.pageIndexValue()"
-        [pageSize]="store.pageSizeValue()"
-        [pageSizeOptions]="[5, 10, 25]"
-        [disabled]="store.loading()"
-        (page)="onPage($event)"
-      />
+      <div class="paginator-wrap">
+        <mat-paginator
+          class="fleet-paginator"
+          [length]="store.totalCount()"
+          [pageIndex]="store.pageIndexValue()"
+          [pageSize]="store.pageSizeValue()"
+          [pageSizeOptions]="[5, 10, 25]"
+          [disabled]="store.loading()"
+          (page)="onPage($event)"
+        />
+      </div>
       <p class="range">
         {{
           'assetManagement.pagination.summary'

@@ -79,3 +79,18 @@ export interface MaintenanceRecordApiDto {
   serviceDate: string;
   nextServiceDate: string;
 }
+
+/** Suscripción (MockAPI `subscriptions`). */
+export interface SubscriptionApiDto {
+  id: number;
+  userId?: number;
+  plan?: string;
+  planName?: string;
+  pricePen?: number;
+  maxMachinery?: number;
+  startDate?: string;
+  endDate?: string;
+  autoRenew?: boolean;
+  status?: string;
+  createdAt?: string;
+}

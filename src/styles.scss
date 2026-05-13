@@ -1,4 +1,8 @@
-/* Global Styles */
+/* Global Styles — tema Material (M3) para formularios, selects, paginador, etc. */
+@use './material-theme.scss';
+
+@import 'leaflet/dist/leaflet.css';
+
 :root {
   --it-yellow: #FFC107;
   --it-yellow-hover: #FFB300;
@@ -20,4 +24,12 @@ body, html {
 
 * {
   box-sizing: border-box;
+}
+
+/* Panel del mat-select en maquinaria: más ancho y sombra legible */
+.fleet-select-panel.mat-mdc-select-panel,
+.reports-select-panel.mat-mdc-select-panel {
+  min-width: 14rem;
+  border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.16);
 }

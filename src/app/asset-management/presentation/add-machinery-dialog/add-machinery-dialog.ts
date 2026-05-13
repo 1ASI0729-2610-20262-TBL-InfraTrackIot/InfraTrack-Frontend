@@ -41,7 +41,7 @@ import { buildCreateMachineryBody } from '../../infrastructure/machinery.mapper'
 })
 export class AddMachineryDialog {
   private readonly fb = inject(FormBuilder);
-  private readonly store = inject(AssetManagementStore);
+  protected readonly store = inject(AssetManagementStore);
   private readonly dialogRef = inject(MatDialogRef<AddMachineryDialog, boolean>);
   private readonly snack = inject(MatSnackBar);
   private readonly translate = inject(TranslateService);
@@ -60,6 +60,9 @@ export class AddMachineryDialog {
   });
 
   submit(): void {
+    if (!this.store.httpPostEnabled()) {
+      return;
+    }
     if (this.form.invalid || this.saving()) {
       this.form.markAllAsTouched();
       return;

@@ -7,6 +7,7 @@ export interface IamSession {
   username: string;
   userId: number;
   loggedInAt: number;
+  role: 'owner' | 'admin';
 }
 
 /** Random MockAPI user id (1–7) for toolbar preview when there is no IAM session. */
@@ -35,14 +36,17 @@ export class IamService {
 
   readonly isAuthenticated = computed(() => this.session() !== null);
   readonly username = computed(() => this.session()?.username ?? null);
+  readonly role = computed(() => this.session()?.role ?? null);
+  readonly isAdmin = computed(() => this.role() === 'admin');
+  readonly isOwner = computed(() => this.role() === 'owner');
   readonly sessionData = computed(() => this.session());
 
-  login(username: string, _password: string, userId = 1): boolean {
+  login(username: string, _password: string, userId = 1, role: 'owner' | 'admin' = 'admin'): boolean {
     const trimmed = username.trim();
     if (!trimmed) {
       return false;
     }
-    const payload: IamSession = { username: trimmed, userId, loggedInAt: Date.now() };
+    const payload: IamSession = { username: trimmed, userId, loggedInAt: Date.now(), role };
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(payload));
     this.session.set(payload);
     localStorage.removeItem(PREVIEW_KEY);
@@ -61,15 +65,17 @@ export class IamService {
       return null;
     }
     try {
-      const parsed = JSON.parse(raw) as Partial<IamSession> & { username?: string };
+      const parsed = JSON.parse(raw) as Partial<IamSession> & { username?: string; role?: string };
       if (!parsed.username) {
         return null;
       }
       const userId = typeof parsed.userId === 'number' && Number.isFinite(parsed.userId) ? parsed.userId : 1;
+      const role = parsed.role === 'owner' || parsed.role === 'admin' ? parsed.role : 'admin';
       return {
         username: parsed.username,
         userId,
         loggedInAt: typeof parsed.loggedInAt === 'number' ? parsed.loggedInAt : Date.now(),
+        role: role as 'owner' | 'admin',
       };
     } catch {
       sessionStorage.removeItem(SESSION_KEY);

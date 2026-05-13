@@ -1,4 +1,8 @@
-export type FleetKpiId = 'activeMachines' | 'fuelAlerts' | 'idleMachines' | 'efficiencyRate';
+export type FleetKpiId =
+  | 'activeMachines'
+  | 'criticalUnread'
+  | 'onlineNodes'
+  | 'upcomingMaintenance';
 
 export interface FleetKpi {
   id: FleetKpiId;

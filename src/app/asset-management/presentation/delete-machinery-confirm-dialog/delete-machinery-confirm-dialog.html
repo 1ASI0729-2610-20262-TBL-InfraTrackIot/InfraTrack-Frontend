@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ 'assetManagement.deleteDialog.title' | translate }}</h2>
+<mat-dialog-content>
+  <p class="msg">{{ 'assetManagement.deleteDialog.message' | translate: { plate: data.plateLabel } }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" mat-dialog-close [disabled]="busy">
+    {{ 'assetManagement.deleteDialog.cancel' | translate }}
+  </button>
+  <button mat-flat-button color="warn" type="button" (click)="confirm()" [disabled]="busy || !store.httpPutDeleteEnabled()">
+    @if (busy) {
+      <mat-progress-spinner diameter="20" mode="indeterminate" />
+    } @else {
+      {{ 'assetManagement.deleteDialog.confirm' | translate }}
+    }
+  </button>
+</mat-dialog-actions>

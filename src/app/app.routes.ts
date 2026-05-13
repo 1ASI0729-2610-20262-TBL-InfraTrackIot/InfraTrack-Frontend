@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { ownerGuard } from './shared/guards/owner.guard';
+
 // IAM login vive en `iam/presentation/login-page`; la ruta se activará cuando conectes el flujo.
 // import { authGuard } from './shared/guards/auth.guard';
 // import { guestGuard } from './shared/guards/guest.guard';
@@ -54,7 +56,20 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./shared/profile-page').then((m) => m.ProfilePage),
       },
+      {
+        path: 'subscription-plans',
+        canActivate: [ownerGuard],
+        loadComponent: () =>
+          import('./shared/subscription-plans-page/subscription-plans-page').then(
+            (m) => m.SubscriptionPlansPage,
+          ),
+      },
     ],
   },
-  { path: '**', redirectTo: '' },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./iam/presentation/login-page/login-page').then((m) => m.LoginPage),
+  },
+  { path: '**', redirectTo: 'login' },
 ];

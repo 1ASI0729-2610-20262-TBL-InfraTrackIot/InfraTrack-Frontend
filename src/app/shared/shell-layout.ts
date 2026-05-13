@@ -1,9 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { Footer } from './footer';
 import { LanguageSwitcher } from './language-switcher';
-
 import { TranslatePipe } from '@ngx-translate/core';
+import { IamService } from '../iam/application/iam.service';
 
 @Component({
   selector: 'app-shell-layout',
@@ -24,56 +24,82 @@ import { TranslatePipe } from '@ngx-translate/core';
         
         <div class="sidebar-scrollable">
           <ul class="nav-links">
-            <li class="nav-section">INICIO</li>
+            <!-- Título basado en la imagen -->
+            <li class="nav-section">RUTAS DE NAVEGACIÓN</li>
+            
+            <!-- Rutas compartidas (Dashboard, Mapa GPS, Maquinaria) -->
             <li>
               <a routerLink="/control-panel" routerLinkActive="active" class="nav-item">
-                <span class="material-icons-outlined">grid_view</span>
-                <span class="nav-text">{{ 'nav.controlPanel' | translate }}</span>
+                <span class="nav-dot dot-blue"></span>
+                <span class="nav-text">Dashboard</span>
               </a>
             </li>
             
-            <li class="nav-section">OPERACIONES</li>
-            <li>
-              <a routerLink="/asset-management" routerLinkActive="active" class="nav-item">
-                <span class="material-icons-outlined">precision_manufacturing</span>
-                <span class="nav-text">{{ 'nav.assetManagement' | translate }}</span>
-              </a>
-            </li>
             <li>
               <a routerLink="/telemetry" routerLinkActive="active" class="nav-item">
-                <span class="material-icons-outlined">satellite_alt</span>
-                <span class="nav-text">{{ 'nav.telemetry' | translate }}</span>
+                <span class="nav-dot dot-blue"></span>
+                <span class="nav-text">Mapa GPS</span>
               </a>
             </li>
 
-            <li class="nav-section">ANÁLISIS</li>
             <li>
-              <a routerLink="/reports-analytics" routerLinkActive="active" class="nav-item">
-                <span class="material-icons-outlined">bar_chart</span>
-                <span class="nav-text">{{ 'nav.reportsAnalytics' | translate }}</span>
-              </a>
-            </li>
-            <li>
-              <a routerLink="/performance" routerLinkActive="active" class="nav-item">
-                <span class="material-icons-outlined">bolt</span>
-                <span class="nav-text">{{ 'nav.performance' | translate }}</span>
+              <a routerLink="/asset-management" routerLinkActive="active" class="nav-item">
+                <span class="nav-dot dot-green"></span>
+                <span class="nav-text">Maquinaria</span>
               </a>
             </li>
 
-            <li class="nav-section">SISTEMA</li>
-            <li>
-              <a routerLink="/configuration" routerLinkActive="active" class="nav-item">
-                <span class="material-icons-outlined">settings</span>
-                <span class="nav-text">{{ 'nav.configuration' | translate }}</span>
-              </a>
-            </li>
+            <!-- Rutas exclusivas de Owner -->
+            @if (role() === 'owner') {
+              <li>
+                <a routerLink="/reports-analytics" routerLinkActive="active" class="nav-item">
+                  <span class="nav-dot dot-orange"></span>
+                  <span class="nav-text">Reportes & Analytics</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="/configuration" routerLinkActive="active" class="nav-item">
+                  <span class="nav-dot dot-purple"></span>
+                  <span class="nav-text">Suscripción</span>
+                </a>
+              </li>
+            }
+
+            <!-- Rutas exclusivas de Admin -->
+            @if (role() === 'admin') {
+              <li>
+                <a routerLink="/reports-analytics" routerLinkActive="active" class="nav-item">
+                  <span class="nav-dot dot-red"></span>
+                  <span class="nav-text">Alertas</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="/configuration" routerLinkActive="active" class="nav-item">
+                  <span class="nav-dot dot-green-teal"></span>
+                  <span class="nav-text">Nodos IoT</span>
+                </a>
+              </li>
+              <li>
+                <a routerLink="/performance" routerLinkActive="active" class="nav-item">
+                  <span class="nav-dot dot-orange"></span>
+                  <span class="nav-text">Mantenimiento</span>
+                </a>
+              </li>
+            }
           </ul>
         </div>
 
         <div class="sidebar-footer">
-          <!-- Footers can be empty or have a small text if needed -->
+          <!-- Perfil / Cerrar sesión (Siempre al final, en el footer de navegación) -->
+          <ul class="nav-links">
+            <li class="nav-bottom-item">
+              <a routerLink="/profile" routerLinkActive="active" class="nav-item">
+                <span class="nav-dot dot-grey"></span>
+                <span class="nav-text">Perfil / Cerrar sesión</span>
+              </a>
+            </li>
+          </ul>
         </div>
-
       </nav>
       
       <div class="main-wrapper" [class.expanded]="!isSidebarOpen()">
@@ -82,12 +108,10 @@ import { TranslatePipe } from '@ngx-translate/core';
             <button class="menu-btn" (click)="toggleSidebar()" aria-label="Toggle Sidebar">
               <span class="material-icons-outlined">menu_open</span>
             </button>
-            <span class="greeting">{{ 'common.welcome' | translate }}</span>
+            <span class="greeting">{{ 'common.welcome' | translate }} {{ iam.username() }}</span>
           </div>
           <div class="topbar-right">
-            <a routerLink="/profile" class="header-profile-link" title="Mi perfil">
-              <img src="https://i.pravatar.cc/150?img=11" alt="Avatar" class="header-avatar" />
-            </a>
+            <!-- Topbar limpio -->
           </div>
         </header>
         <main class="content">
@@ -111,10 +135,10 @@ import { TranslatePipe } from '@ngx-translate/core';
     .sidebar { 
       width: var(--it-sidebar-width, 280px); 
       flex-shrink: 0;
-      background-color: #FFFFFF; 
+      background-color: #1E1E1E; /* Dark theme sidebar as seen in the prompt */
       display: flex;
       flex-direction: column;
-      border-right: 1px solid #E2E8F0;
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
       z-index: 50;
       transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -131,7 +155,7 @@ import { TranslatePipe } from '@ngx-translate/core';
       .sidebar {
         position: absolute;
         height: 100%;
-        box-shadow: 4px 0 25px rgba(0,0,0,0.1);
+        box-shadow: 4px 0 25px rgba(0,0,0,0.5);
       }
       .sidebar.sidebar-hidden {
         width: 0;
@@ -155,6 +179,7 @@ import { TranslatePipe } from '@ngx-translate/core';
       width: 36px;
       height: 36px;
       object-fit: contain;
+      flex-shrink: 0;
     }
 
     .logo-text {
@@ -166,13 +191,14 @@ import { TranslatePipe } from '@ngx-translate/core';
     .brand {
       font-weight: 800;
       font-size: 1.15rem;
-      color: #0F172A;
+      color: #FFFFFF;
       letter-spacing: -0.3px;
     }
 
     .sidebar-scrollable {
       flex: 1;
       overflow-y: auto;
+      overflow-x: hidden;
       padding: 0.5rem 1rem;
     }
 
@@ -181,7 +207,7 @@ import { TranslatePipe } from '@ngx-translate/core';
       width: 4px;
     }
     .sidebar-scrollable::-webkit-scrollbar-thumb {
-      background: #CBD5E1;
+      background: #333;
       border-radius: 4px;
     }
 
@@ -189,6 +215,8 @@ import { TranslatePipe } from '@ngx-translate/core';
       list-style: none; 
       padding: 0; 
       margin: 0;
+      display: flex;
+      flex-direction: column;
     }
 
     .nav-section {
@@ -197,89 +225,61 @@ import { TranslatePipe } from '@ngx-translate/core';
       color: #94A3B8;
       letter-spacing: 1.2px;
       text-transform: uppercase;
-      margin: 1.5rem 0 0.5rem 0.75rem;
+      margin: 1.5rem 0 1rem 0.75rem;
+      white-space: nowrap;
     }
 
     .nav-links li:not(.nav-section) { 
       margin-bottom: 0.25rem; 
     }
 
+    .sidebar-footer {
+      padding: 0.5rem 1rem 1.5rem 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
     .nav-item { 
       display: flex;
       align-items: center;
-      gap: 14px;
-      color: #64748B; 
+      gap: 12px;
+      color: #E2E8F0; 
       text-decoration: none; 
-      padding: 10px 14px;
+      padding: 12px 14px;
       border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.9rem;
+      font-weight: 600;
+      font-size: 0.95rem;
       transition: all 0.2s ease;
       white-space: nowrap;
       outline: none;
     }
 
-    .nav-item .material-icons-outlined {
-      font-size: 20px;
-      color: #94A3B8;
-      transition: color 0.2s ease;
-    }
-
-    .nav-item:hover { 
-      background-color: #F1F5F9; 
-      color: #0F172A;
-    }
-    .nav-item:hover .material-icons-outlined {
-      color: #64748B;
-    }
-
-    /* Active State - Enterprise modern */
-    .nav-item.active { 
-      background-color: #FEF3C7; /* Very soft yellow */
-      color: #B45309; /* Deep amber/brown for premium contrast */
-      font-weight: 600;
-    }
-
-    .nav-item.active .material-icons-outlined {
-      color: #D97706; /* Vibrant amber for icon */
-    }
-
-    /* Focus fix for that ugly black border */
-    .nav-item:focus-visible {
-      box-shadow: 0 0 0 2px #FCD34D;
-    }
-
-    .sidebar-footer {
-      padding: 1rem;
-      border-top: 1px solid #F1F5F9;
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
       flex-shrink: 0;
     }
 
-    /* Enterprise Avatar in Header */
-    .header-profile-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background-color: #E2E8F0;
-      text-decoration: none;
-      transition: box-shadow 0.2s ease, transform 0.2s ease;
-      cursor: pointer;
+    .dot-blue { background-color: #3B82F6; }
+    .dot-green { background-color: #65A30D; }
+    .dot-orange { background-color: #D97706; }
+    .dot-purple { background-color: #8B5CF6; }
+    .dot-red { background-color: #EF4444; }
+    .dot-green-teal { background-color: #10B981; }
+    .dot-grey { background-color: #94A3B8; }
+
+    .nav-item:hover { 
+      background-color: #2D2D2D; 
     }
 
-    .header-profile-link:hover {
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-      transform: translateY(-1px);
+    /* Active State */
+    .nav-item.active { 
+      background-color: #2A2A2A; 
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
     }
 
-    .header-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #FFFFFF;
+    .nav-item:focus-visible {
+      box-shadow: 0 0 0 2px #3B82F6;
     }
 
     /* Main wrapper and topbar */
@@ -349,6 +349,10 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class ShellLayout {
   readonly isSidebarOpen = signal(true);
+  readonly iam = inject(IamService);
+  
+  // Expose role directly to template
+  readonly role = this.iam.role;
 
   toggleSidebar() {
     this.isSidebarOpen.update(v => !v);

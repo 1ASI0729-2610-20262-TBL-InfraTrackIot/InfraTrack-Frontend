@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { forkJoin, Observable, of } from 'rxjs';
+import { forkJoin, Observable, of, throwError } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
 
 import { INFRATRACK_API } from '../../shared/infratrack-api.urls';
+import { infratrackPutDeleteAllowed } from '../../shared/infratrack-http-policy';
 import {
   AlertApiDto,
   MachineryApiDto,
@@ -52,6 +53,24 @@ export class PerformanceStore {
     });
   }
 
+  httpPutDeleteEnabled(): boolean {
+    return infratrackPutDeleteAllowed();
+  }
+
+  updateOperator(body: OperatorApiDto): Observable<OperatorApiDto> {
+    if (!infratrackPutDeleteAllowed()) {
+      return throwError(() => new Error('INFRATRACK_PUT_DELETE_DISABLED'));
+    }
+    return this.http.put<OperatorApiDto>(`${INFRATRACK_API.operators}/${body.id}`, body);
+  }
+
+  deleteOperator(id: number): Observable<void> {
+    if (!infratrackPutDeleteAllowed()) {
+      return throwError(() => new Error('INFRATRACK_PUT_DELETE_DISABLED'));
+    }
+    return this.http.delete<void>(`${INFRATRACK_API.operators}/${id}`);
+  }
+
   /** Recarga solo operadores y KPIs que dependen de ellos (tras editar / borrar). */
   reloadOperators(): void {
     forkJoin({
@@ -64,14 +83,6 @@ export class PerformanceStore {
       .subscribe(({ alerts, telemetry, machinery, operators }) => {
         this.applyDashboard(alerts, telemetry, machinery, operators);
       });
-  }
-
-  updateOperator(body: OperatorApiDto): Observable<OperatorApiDto> {
-    return this.http.put<OperatorApiDto>(`${INFRATRACK_API.operators}/${body.id}`, body);
-  }
-
-  deleteOperator(id: number): Observable<void> {
-    return this.http.delete<void>(`${INFRATRACK_API.operators}/${id}`);
   }
 
   private fetchDashboard$() {

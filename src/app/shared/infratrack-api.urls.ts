@@ -7,7 +7,8 @@ export const INFRATRACK_API = {
   users: `${MOCK_API_BASE_URLS.identity}/users`,
   operators: `${MOCK_API_BASE_URLS.identity}/operators`,
   machinery: `${MOCK_API_BASE_URLS.assetManagement}/machinery`,
-  iotNodes: `${MOCK_API_BASE_URLS.assetManagement}/iotNodes`,
+  /** En MockAPI el recurso `iotNodes` está en el proyecto de telemetría (no en asset management). */
+  iotNodes: `${MOCK_API_BASE_URLS.telemetry}/iotNodes`,
   telemetryData: `${MOCK_API_BASE_URLS.telemetry}/telemetryData`,
   alerts: `${MOCK_API_BASE_URLS.controlPanel}/alerts`,
   maintenanceRecords: `${MOCK_API_BASE_URLS.assetManagement}/maintenanceRecords`,
