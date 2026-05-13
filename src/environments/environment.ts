@@ -1,23 +1,22 @@
+import { INJECTED_API_BASE_URLS as b } from '../app/shared/api-bases.inject';
+
+/** Referencia para módulos que lean `environment` (las URLs siguen el mismo origen que `MOCK_API_BASE_URLS`). */
 export const environment = {
   production: false,
-  // IAM / Users API (misma base que `MOCK_API_BASE_URLS.identity` + recurso `/users`)
-  iamApiUrl: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
+  iamApiUrl: b.identity,
   iamEndpoint: '/users',
-  
-  // Telemetry / IoT Nodes API
-  telemetryApiUrl: 'https://6a02a70a0d92f63dd253e074.mockapi.io/api/v1',
+
+  telemetryApiUrl: b.telemetry,
   telemetryEndpoint: '/telemetryData',
   iotNodesEndpoint: '/iotNodes',
-  
-  // Subscriptions / Establishments
-  subscriptionsApiUrl: 'https://6a0246a80d92f63dd2537cd5.mockapi.io/api/v1',
+
+  subscriptionsApiUrl: b.subscriptions,
   subscriptionsEndpoint: '/subscriptions',
   establishmentsEndpoint: '/establishments',
-  
-  // Other Modules
-  operatorsApiUrl: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
+
+  operatorsApiUrl: b.operations,
   operatorsEndpoint: '/operators',
-  
-  logisticsApiUrl: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
-  transportsEndpoint: '/transports'
+
+  logisticsApiUrl: b.operations,
+  transportsEndpoint: '/transports',
 };

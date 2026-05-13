@@ -3,6 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
+import { INJECTED_API_BASE_URLS } from './api-bases.inject';
 import { INFRATRACK_API } from './infratrack-api.urls';
 import { OperatorApiDto, UserApiDto, UserRole } from './infratrack-api.dto';
 import {
@@ -13,17 +14,10 @@ import {
 import { assignRandomPreviewUserId, IamService } from '../iam/application/iam.service';
 
 /**
- * Bases MockAPI.io acordadas para InfraTrack.
+ * Bases MockAPI.io acordadas para InfraTrack (sobrescribibles en build vía `scripts/inject-api-bases.mjs`).
  * Política GET/POST/PUT: ver `infratrack-http-policy.ts` (`allowPutDelete`, `allowPost`).
  */
-export const MOCK_API_BASE_URLS = {
-  controlPanel: 'https://6a02a9550d92f63dd253e48d.mockapi.io/api/v1',
-  assetManagement: 'https://6a02a7340d92f63dd253e0e6.mockapi.io/api/v1',
-  telemetry: 'https://6a02a70a0d92f63dd253e074.mockapi.io/api/v1',
-  operations: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
-  subscriptions: 'https://6a0246a80d92f63dd2537cd5.mockapi.io/api/v1',
-  identity: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
-} as const;
+export const MOCK_API_BASE_URLS = INJECTED_API_BASE_URLS;
 
 export type MockApiBaseKey = keyof typeof MOCK_API_BASE_URLS;
 
