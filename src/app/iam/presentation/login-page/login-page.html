@@ -5,49 +5,67 @@
 
   <main class="login-main">
     <div class="login-container">
-      <!-- Columna Izquierda - Branding -->
+      
+      <!-- Columna Izquierda - Branding con Animación de Fondo -->
       <div class="login-sidebar">
+        <div class="bg-slideshow">
+          <div class="bg-slide slide-1"></div>
+          <div class="bg-slide slide-2"></div>
+        </div>
+        <div class="sidebar-overlay"></div>
         <div class="sidebar-content">
           <div class="brand-section">
-            <img class="logo" src="imagen/logo_infratrack-sinfondo.png" alt="InfraTrack" />
+            <img class="logo" src="/imagenes/logo_infratrack-sinfondo.png" alt="InfraTrack" />
             <div class="brand-text">
-              <span class="brand-name">{{ 'app.title' | translate }}</span>
-              <span class="brand-tag">{{ 'app.tagline' | translate }}</span>
+              <span class="brand-name">INFRATRACK</span>
             </div>
+            <p class="brand-desc">Plataforma empresarial de gestión logística y telemetría avanzada. Monitoreo en tiempo real para flotas de alto rendimiento.</p>
           </div>
         </div>
       </div>
 
-      <!-- Columna Derecha - Login -->
+      <!-- Columna Derecha - Simulador de Login -->
       <div class="login-panel">
-        <mat-card class="login-card" appearance="raised">
-          <div class="login-card__ribbon" aria-hidden="true"></div>
-          <mat-card-header class="login-card__header">
-            <mat-card-title class="login-card__title">{{ 'login.title' | translate }}</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="login-card__body">
-            <p class="login-card__subtitle">{{ 'login.subtitle' | translate }}</p>
-            <form (ngSubmit)="submit()" [formGroup]="form" class="login-form">
-              <mat-form-field appearance="outline" class="full">
-                <mat-label>{{ 'login.username' | translate }}</mat-label>
-                <input formControlName="username" matInput autocomplete="username" />
-                <mat-hint class="login-hint">{{ 'login.usernameHint' | translate }}</mat-hint>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="full">
-                <mat-label>{{ 'login.password' | translate }}</mat-label>
-                <input formControlName="password" matInput type="password" autocomplete="current-password" />
-              </mat-form-field>
-              @if (showError()) {
-                <p class="error" role="alert">{{ 'login.errorRequired' | translate }}</p>
-              }
-              <button class="submit" mat-flat-button color="primary" type="submit">
-                {{ 'login.submit' | translate }}
-              </button>
-            </form>
-          </mat-card-content>
-        </mat-card>
-        <p class="login-footnote">InfraTrack · UPC · Open Source</p>
+        <div class="login-content-wrapper">
+          <h1 class="welcome-title">Bienvenido a InfraTrack</h1>
+          <p class="welcome-subtitle">Selecciona un perfil para ingresar a la plataforma (Modo Demo)</p>
+
+          <div class="roles-grid">
+            <!-- Card Dueño -->
+            <button class="role-card" (click)="simulateLogin('owner')">
+              <div class="role-card-header">
+                <span class="material-icons-outlined role-icon">factory</span>
+                <span class="role-title">Dueño de empresa</span>
+              </div>
+              <div class="role-card-body">
+                <div class="role-name">Roberto Mendoza</div>
+                <div class="role-desc">Vista estratégica · KPIs · reportes · ROI</div>
+              </div>
+              <div class="role-card-footer">
+                <span class="role-badge badge-owner">owner</span>
+              </div>
+            </button>
+
+            <!-- Card Admin -->
+            <button class="role-card" (click)="simulateLogin('admin')">
+              <div class="role-card-header">
+                <span class="material-icons-outlined role-icon">receipt_long</span>
+                <span class="role-title">Administrador logístico</span>
+              </div>
+              <div class="role-card-body">
+                <div class="role-name">Carlos Vizcarra</div>
+                <div class="role-desc">Operación diaria · mapa · alertas · mantenimiento</div>
+              </div>
+              <div class="role-card-footer">
+                <span class="role-badge badge-admin">admin</span>
+              </div>
+            </button>
+          </div>
+
+          <p class="login-footnote">InfraTrack · Enterprise Edition</p>
+        </div>
       </div>
+
     </div>
   </main>
 </div>
