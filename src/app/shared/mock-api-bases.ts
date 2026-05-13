@@ -14,13 +14,14 @@ import { assignRandomPreviewUserId, IamService } from '../iam/application/iam.se
 
 /**
  * Bases MockAPI.io acordadas para InfraTrack.
+ * Política GET/POST/PUT: ver `infratrack-http-policy.ts` (`allowPutDelete`, `allowPost`).
  */
 export const MOCK_API_BASE_URLS = {
   controlPanel: 'https://6a02a9550d92f63dd253e48d.mockapi.io/api/v1',
   assetManagement: 'https://6a02a7340d92f63dd253e0e6.mockapi.io/api/v1',
   telemetry: 'https://6a02a70a0d92f63dd253e074.mockapi.io/api/v1',
   operations: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
-  subscriptions: 'https://69fb34c188a7af0ecca8aca0.mockapi.io/api/v1',
+  subscriptions: 'https://6a0246a80d92f63dd2537cd5.mockapi.io/api/v1',
   identity: 'https://6a02a56d0d92f63dd253dd53.mockapi.io/api/v1',
 } as const;
 

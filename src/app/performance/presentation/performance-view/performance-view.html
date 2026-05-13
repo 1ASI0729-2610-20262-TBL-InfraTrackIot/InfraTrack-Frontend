@@ -121,6 +121,7 @@
               <button
                 mat-icon-button
                 type="button"
+                [disabled]="!store.httpPutDeleteEnabled()"
                 [attr.aria-label]="'performance.editOperator.open' | translate"
                 (click)="editOperator(row)"
               >
@@ -130,6 +131,7 @@
                 mat-icon-button
                 type="button"
                 color="warn"
+                [disabled]="!store.httpPutDeleteEnabled()"
                 [attr.aria-label]="'performance.deleteOperator.open' | translate"
                 (click)="deleteOperator(row)"
               >

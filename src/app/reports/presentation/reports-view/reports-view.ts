@@ -1,22 +1,43 @@
+import { DatePipe } from '@angular/common';
 import { afterNextRender, Component, DestroyRef, ElementRef, inject, viewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Chart, registerables } from 'chart.js';
-import { debounceTime, fromEvent } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 import { MatCard, MatCardContent, MatCardHeader, MatCardTitle } from '@angular/material/card';
+import { MatDialog } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatOption, MatSelect } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable,
+} from '@angular/material/table';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { Chart, registerables } from 'chart.js';
+import { debounceTime, fromEvent } from 'rxjs';
+import { map, switchMap, take } from 'rxjs';
 
+import { AlertApiDto } from '../../../shared/infratrack-api.dto';
+import { AlertsCenterStore } from '../../application/alerts-center.store';
 import { ReportsStore } from '../../application/reports.store';
+import { AddAlertDialog } from '../add-alert-dialog/add-alert-dialog';
 
 Chart.register(...registerables);
 
 @Component({
   selector: 'app-reports-view',
   imports: [
+    DatePipe,
     MatCard,
     MatCardHeader,
     MatCardTitle,
@@ -27,6 +48,18 @@ Chart.register(...registerables);
     MatLabel,
     MatSelect,
     MatOption,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatHeaderCellDef,
+    MatCell,
+    MatCellDef,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatRow,
+    MatRowDef,
+    MatSlideToggle,
+    MatProgressSpinner,
     TranslatePipe,
   ],
   templateUrl: './reports-view.html',
@@ -36,7 +69,9 @@ export class ReportsView {
   private readonly translate = inject(TranslateService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly snack = inject(MatSnackBar);
+  private readonly dialog = inject(MatDialog);
   protected readonly store = inject(ReportsStore);
+  protected readonly alertsStore = inject(AlertsCenterStore);
 
   private readonly pageWrap = viewChild<ElementRef<HTMLElement>>('pageWrap');
   private readonly fleetCanvas = viewChild<ElementRef<HTMLCanvasElement>>('chartFleet');
@@ -44,9 +79,10 @@ export class ReportsView {
   private readonly weeklyCanvas = viewChild<ElementRef<HTMLCanvasElement>>('chartWeekly');
   private readonly trendCanvas = viewChild<ElementRef<HTMLCanvasElement>>('chartTrend');
 
-  /** Chart.js usa genéricos distintos por tipo de gráfico; `unknown[]` evita conflictos al mezclar bar/doughnut/line. */
   private readonly charts: unknown[] = [];
   private resizeObserver?: ResizeObserver;
+
+  protected readonly alertColumns = ['id', 'time', 'machine', 'type', 'severity', 'description', 'ack'] as const;
 
   protected readonly dateOptions = [
     { value: 'last7', labelKey: 'reports.filters.optLast7' },
@@ -67,6 +103,8 @@ export class ReportsView {
   ] as const;
 
   constructor() {
+    this.alertsStore.load().subscribe();
+
     this.destroyRef.onDestroy(() => {
       this.resizeObserver?.disconnect();
       for (const c of this.charts) {
@@ -90,6 +128,56 @@ export class ReportsView {
         this.resizeObserver = new ResizeObserver(() => this.resizeCharts());
         this.resizeObserver.observe(wrap);
       }
+    });
+  }
+
+  protected typeKey(t: string): string {
+    const k = String(t).toLowerCase();
+    return ['fuel_theft', 'idle_excess', 'maintenance', 'geofence'].includes(k) ? k : 'other';
+  }
+
+  protected sevKey(sev: string): string {
+    const s = String(sev).toLowerCase();
+    return s === 'critical' || s === 'warning' ? s : 'other';
+  }
+
+  protected severityClass(sev: string): string {
+    const s = String(sev).toLowerCase();
+    if (s === 'critical') {
+      return 'sev-pill sev-pill--critical';
+    }
+    if (s === 'warning') {
+      return 'sev-pill sev-pill--warning';
+    }
+    return 'sev-pill sev-pill--neutral';
+  }
+
+  protected onAckChange(row: AlertApiDto, next: boolean): void {
+    if (row.isAcknowledged === next) {
+      return;
+    }
+    this.alertsStore
+      .acknowledge(row, next)
+      .pipe(
+        switchMap((r) => this.alertsStore.load().pipe(map(() => r))),
+        take(1),
+      )
+      .subscribe({
+        next: (r) => {
+          if (r.localOnly) {
+            this.snack.open(this.translate.instant('reports.alertsCenter.ackLocalOnly'), undefined, { duration: 5200 });
+          }
+        },
+        error: () => {
+          this.snack.open(this.translate.instant('reports.alertsCenter.ackError'), undefined, { duration: 4000 });
+        },
+      });
+  }
+
+  protected openCreateAlert(): void {
+    this.dialog.open(AddAlertDialog, {
+      width: 'min(480px, 94vw)',
+      autoFocus: 'dialog',
     });
   }
 

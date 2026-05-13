@@ -20,7 +20,7 @@ export function machineryDtoToMachine(d: MachineryApiDto): Machine {
   const fuelLevel: MachineFuelLevel =
     d.currentStatus === 'maintenance' ? 'warning' : operationalStatus === 'active' ? 'high' : 'medium';
   const locationLabel = d.plateNumber ? `${d.plateNumber} · ${d.fuelType}` : '—';
-  return { machineId, machineName, operationalStatus, fuelLevel, locationLabel };
+  return { machineryApiId: id, machineId, machineName, operationalStatus, fuelLevel, locationLabel };
 }
 
 export type CreateMachineryBody = Omit<MachineryApiDto, 'id'>;

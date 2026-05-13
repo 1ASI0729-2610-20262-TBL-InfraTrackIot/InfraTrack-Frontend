@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { INFRATRACK_API } from '../../shared/infratrack-api.urls';
 import {
@@ -34,5 +34,11 @@ export class ControlPanelDashboardHttp {
         .pipe(catchError(() => of([]))),
       iotNodes: this.http.get<IotNodeApiDto[]>(INFRATRACK_API.iotNodes).pipe(catchError(() => of([]))),
     });
+  }
+
+  /** PUT MockAPI: envía el recurso completo con `isAcknowledged: true` (más compatible que PATCH). */
+  acknowledgeAlert$(alert: AlertApiDto): Observable<AlertApiDto> {
+    const url = `${INFRATRACK_API.alerts}/${alert.id}`;
+    return this.http.put<AlertApiDto>(url, { ...alert, isAcknowledged: true });
   }
 }

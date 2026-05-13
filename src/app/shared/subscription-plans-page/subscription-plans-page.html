@@ -1,0 +1,114 @@
+<div class="sub-plans">
+  <header class="sub-plans__head">
+    <div>
+      <a mat-button routerLink="/profile" class="sub-plans__back">
+        {{ 'subscriptionPlans.backProfile' | translate }}
+      </a>
+      <h1 class="sub-plans__title">{{ 'subscriptionPlans.title' | translate }}</h1>
+      <p class="sub-plans__intro">{{ 'subscriptionPlans.intro' | translate }}</p>
+    </div>
+    @if (saving()) {
+      <mat-progress-spinner diameter="28" mode="indeterminate" />
+    }
+  </header>
+
+  @if (!httpPutEnabled()) {
+    <div class="sub-plans__banner" role="status">
+      {{ 'subscriptionPlans.readOnlyHint' | translate }}
+    </div>
+  }
+
+  @if (loading()) {
+    <div class="sub-plans__loading">
+      <mat-progress-spinner diameter="40" mode="indeterminate" />
+    </div>
+  } @else {
+    @if (subscription(); as sub) {
+      <section class="sub-plans__current" aria-labelledby="current-plan-title">
+        <h2 id="current-plan-title" class="sub-plans__section-title">{{ 'subscriptionPlans.currentTitle' | translate }}</h2>
+        <dl class="sub-plans__dl">
+          <div>
+            <dt>{{ 'subscriptionPlans.fieldPlan' | translate }}</dt>
+            <dd>{{ sub.planName || sub.plan || '—' }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'subscriptionPlans.fieldPrice' | translate }}</dt>
+            <dd>
+              @if (sub.pricePen != null) {
+                S/ {{ sub.pricePen | number: '1.0-0' }}
+              } @else {
+                —
+              }
+            </dd>
+          </div>
+          <div>
+            <dt>{{ 'subscriptionPlans.fieldMaxMachinery' | translate }}</dt>
+            <dd>{{ sub.maxMachinery ?? '—' }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'subscriptionPlans.fieldStatus' | translate }}</dt>
+            <dd class="sub-plans__status">{{ (sub.status || '—') | uppercase }}</dd>
+          </div>
+          <div>
+            <dt>{{ 'subscriptionPlans.fieldDates' | translate }}</dt>
+            <dd>
+              @if (sub.startDate || sub.endDate) {
+                {{ (sub.startDate || sub.createdAt) | date: 'mediumDate' }}
+                @if (sub.endDate) {
+                  — {{ sub.endDate | date: 'mediumDate' }}
+                }
+              } @else {
+                —
+              }
+            </dd>
+          </div>
+        </dl>
+        <div class="sub-plans__renew">
+          <span class="sub-plans__renew-label">{{ 'subscriptionPlans.autoRenew' | translate }}</span>
+          <mat-slide-toggle
+            [checked]="sub.autoRenew === true"
+            [disabled]="!httpPutEnabled() || saving()"
+            (change)="onAutoRenew($event.checked)"
+          />
+        </div>
+      </section>
+    } @else {
+      <p class="sub-plans__empty">{{ 'subscriptionPlans.noRecord' | translate }}</p>
+    }
+
+    <h2 class="sub-plans__section-title">{{ 'subscriptionPlans.chooseTitle' | translate }}</h2>
+    <div class="sub-plans__grid">
+      @for (tier of tiers; track tier) {
+        <mat-card class="plan-card" [class.plan-card--current]="isCurrentTier(tier)">
+          <mat-card-header>
+            <mat-card-title>{{ 'subscriptionPlans.plan.' + tier + '.name' | translate }}</mat-card-title>
+            <mat-card-subtitle>{{ 'subscriptionPlans.plan.' + tier + '.tagline' | translate }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="plan-card__price">
+              S/ {{ catalogFor(tier).pricePen | number: '1.0-0' }}
+              <span class="plan-card__per">{{ 'subscriptionPlans.perMonth' | translate }}</span>
+            </p>
+            <p class="plan-card__meta">
+              {{ 'subscriptionPlans.maxMachinery' | translate: { n: catalogFor(tier).maxMachinery } }}
+            </p>
+            <button
+              mat-flat-button
+              color="primary"
+              type="button"
+              class="plan-card__btn"
+              [disabled]="!httpPutEnabled() || saving() || isCurrentTier(tier) || !subscription()"
+              (click)="selectPlan(tier)"
+            >
+              @if (isCurrentTier(tier)) {
+                {{ 'subscriptionPlans.currentBadge' | translate }}
+              } @else {
+                {{ 'subscriptionPlans.selectPlan' | translate }}
+              }
+            </button>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
