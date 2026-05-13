@@ -6,6 +6,7 @@ import {
   inject,
   input,
   effect,
+  signal,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -22,14 +23,22 @@ Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
   imports: [TranslatePipe],
   template: `
     <div class="charts-grid">
-      <div class="chart-card">
-        <h3 class="chart-title">{{ 'controlPanel.charts.machineryStatus' | translate }}</h3>
+      <div class="chart-card chart-card--machinery">
+        <div class="chart-card__head">
+          <span class="chart-card__icon material-icons-outlined" aria-hidden="true">precision_manufacturing</span>
+          <h3 class="chart-title">{{ 'controlPanel.charts.machineryStatus' | translate }}</h3>
+        </div>
+        <p class="chart-card__hint">{{ 'controlPanel.charts.machineryHint' | translate }}</p>
         <div class="chart-canvas-wrap">
           <canvas #machCanvas height="220" aria-label="Machinery status chart"></canvas>
         </div>
       </div>
-      <div class="chart-card">
-        <h3 class="chart-title">{{ 'controlPanel.charts.nodesOnline' | translate }}</h3>
+      <div class="chart-card chart-card--nodes">
+        <div class="chart-card__head">
+          <span class="chart-card__icon material-icons-outlined" aria-hidden="true">sensors</span>
+          <h3 class="chart-title">{{ 'controlPanel.charts.nodesOnline' | translate }}</h3>
+        </div>
+        <p class="chart-card__hint">{{ 'controlPanel.charts.nodesHint' | translate }}</p>
         <div class="chart-canvas-wrap">
           <canvas #nodesCanvas height="220" aria-label="IoT nodes chart"></canvas>
         </div>
@@ -39,26 +48,82 @@ Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
   styles: `
     .charts-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.25rem;
+      margin-bottom: 1.5rem;
     }
     .chart-card {
-      background: #fff;
-      border: 1px solid #e2e8f0;
+      position: relative;
+      background: linear-gradient(165deg, #ffffff 0%, #f8fafc 100%);
+      border: 1px solid rgba(15, 23, 42, 0.08);
       border-radius: 16px;
-      padding: 1rem 1rem 0.5rem;
-      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+      padding: 1rem 1.1rem 0.65rem;
+      box-shadow:
+        0 1px 2px rgba(15, 23, 42, 0.04),
+        0 8px 24px rgba(15, 23, 42, 0.06);
+      overflow: hidden;
+    }
+    .chart-card--machinery::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      opacity: 0.85;
+    }
+    .chart-card--nodes::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #0ea5e9);
+      opacity: 0.85;
+    }
+    .chart-card__head {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+    .chart-card__icon {
+      font-size: 1.35rem;
+      color: #475569;
+    }
+    .chart-card--machinery .chart-card__icon {
+      color: #15803d;
+    }
+    .chart-card--nodes .chart-card__icon {
+      color: #1d4ed8;
     }
     .chart-title {
-      margin: 0 0 0.75rem;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #334155;
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+    .chart-card__hint {
+      margin: 0 0 0.65rem;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: #64748b;
     }
     .chart-canvas-wrap {
       position: relative;
       height: 220px;
       width: 100%;
+      min-height: 220px;
+      min-width: 200px;
+    }
+    .chart-canvas-wrap canvas {
+      display: block;
+      width: 100% !important;
+      height: 220px !important;
+      max-width: 100%;
     }
   `,
 })
@@ -75,32 +140,42 @@ export class ControlPanelCharts {
   private machineryChart: Chart | null = null;
   private nodesChart: Chart | null = null;
 
+  /** Evita dibujar antes del primer paint del host (canvas sin tamaño / ref aún null). */
+  private readonly chartsHostReady = signal(false);
+
   constructor() {
     afterNextRender(() => {
-      effect(() => {
-        const m = this.machinery();
-        const n = this.iotNodes();
-        const c1 = this.machCanvas()?.nativeElement;
-        const c2 = this.nodesCanvas()?.nativeElement;
-        if (!c1 || !c2) {
-          return;
-        }
+      this.chartsHostReady.set(true);
+    });
+
+    effect(() => {
+      this.chartsHostReady();
+      const c1 = this.machCanvas()?.nativeElement;
+      const c2 = this.nodesCanvas()?.nativeElement;
+      const m = this.machinery();
+      const n = this.iotNodes();
+      if (!c1 || !c2) {
+        return;
+      }
+      requestAnimationFrame(() => {
         this.drawMachineryChart(c1, m);
         this.drawNodesChart(c2, n);
       });
     });
 
     this.translate.onLangChange.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      const m = this.machinery();
-      const n = this.iotNodes();
       const c1 = this.machCanvas()?.nativeElement;
       const c2 = this.nodesCanvas()?.nativeElement;
-      if (c1) {
-        this.drawMachineryChart(c1, m);
-      }
-      if (c2) {
-        this.drawNodesChart(c2, n);
-      }
+      const m = this.machinery();
+      const n = this.iotNodes();
+      queueMicrotask(() => {
+        if (c1) {
+          this.drawMachineryChart(c1, m);
+        }
+        if (c2) {
+          this.drawNodesChart(c2, n);
+        }
+      });
     });
 
     this.destroyRef.onDestroy(() => {
@@ -118,11 +193,14 @@ export class ControlPanelCharts {
     let inactive = 0;
     let other = 0;
     for (const x of machinery) {
-      if (x.currentStatus === 'active') {
+      const st = String(x.currentStatus ?? '')
+        .trim()
+        .toLowerCase();
+      if (st === 'active') {
         active++;
-      } else if (x.currentStatus === 'maintenance') {
+      } else if (st === 'maintenance') {
         maintenance++;
-      } else if (x.currentStatus === 'inactive') {
+      } else if (st === 'inactive') {
         inactive++;
       } else {
         other++;
@@ -158,52 +236,54 @@ export class ControlPanelCharts {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          cutout: '58%',
           plugins: {
             legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 }, color: '#475569' } },
           },
         },
       });
-      return;
-    }
-
-    this.machineryChart = new Chart(canvas, {
-      type: 'doughnut',
-      data: {
-        labels: pairs.map((p) => p.label),
-        datasets: [
-          {
-            data: pairs.map((p) => p.value),
-            backgroundColor: pairs.map((p) => p.color),
-            borderWidth: 0,
-            hoverOffset: 6,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              boxWidth: 10,
-              font: { size: 11 },
-              color: '#475569',
+    } else {
+      this.machineryChart = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+          labels: pairs.map((p) => p.label),
+          datasets: [
+            {
+              data: pairs.map((p) => p.value),
+              backgroundColor: pairs.map((p) => p.color),
+              borderWidth: 0,
+              hoverOffset: 6,
             },
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => {
-                const v = Number(ctx.raw);
-                const total = (ctx.dataset.data as number[]).reduce((a, b) => a + b, 0) || 1;
-                const pct = Math.round((v / total) * 100);
-                return `${ctx.label}: ${v} (${pct}%)`;
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '58%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 10,
+                font: { size: 11 },
+                color: '#475569',
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const v = Number(ctx.raw);
+                  const total = (ctx.dataset.data as number[]).reduce((a, b) => a + b, 0) || 1;
+                  const pct = Math.round((v / total) * 100);
+                  return `${ctx.label}: ${v} (${pct}%)`;
+                },
               },
             },
           },
         },
-      },
-    });
+      });
+    }
+    requestAnimationFrame(() => this.machineryChart?.resize());
   }
 
   private drawNodesChart(canvas: HTMLCanvasElement, nodes: IotNodeApiDto[]): void {
@@ -214,9 +294,12 @@ export class ControlPanelCharts {
     let offline = 0;
     let other = 0;
     for (const x of nodes) {
-      if (x.connectionStatus === 'online') {
+      const st = String(x.connectionStatus ?? '')
+        .trim()
+        .toLowerCase();
+      if (st === 'online') {
         online++;
-      } else if (x.connectionStatus === 'offline') {
+      } else if (st === 'offline') {
         offline++;
       } else {
         other++;
@@ -248,51 +331,53 @@ export class ControlPanelCharts {
         options: {
           responsive: true,
           maintainAspectRatio: false,
+          cutout: '58%',
           plugins: {
             legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 }, color: '#475569' } },
           },
         },
       });
-      return;
-    }
-
-    this.nodesChart = new Chart(canvas, {
-      type: 'doughnut',
-      data: {
-        labels: pairs.map((p) => p.label),
-        datasets: [
-          {
-            data: pairs.map((p) => p.value),
-            backgroundColor: pairs.map((p) => p.color),
-            borderWidth: 0,
-            hoverOffset: 6,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              boxWidth: 10,
-              font: { size: 11 },
-              color: '#475569',
+    } else {
+      this.nodesChart = new Chart(canvas, {
+        type: 'doughnut',
+        data: {
+          labels: pairs.map((p) => p.label),
+          datasets: [
+            {
+              data: pairs.map((p) => p.value),
+              backgroundColor: pairs.map((p) => p.color),
+              borderWidth: 0,
+              hoverOffset: 6,
             },
-          },
-          tooltip: {
-            callbacks: {
-              label: (ctx) => {
-                const v = Number(ctx.raw);
-                const total = (ctx.dataset.data as number[]).reduce((a, b) => a + b, 0) || 1;
-                const pct = Math.round((v / total) * 100);
-                return `${ctx.label}: ${v} (${pct}%)`;
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: '58%',
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 10,
+                font: { size: 11 },
+                color: '#475569',
+              },
+            },
+            tooltip: {
+              callbacks: {
+                label: (ctx) => {
+                  const v = Number(ctx.raw);
+                  const total = (ctx.dataset.data as number[]).reduce((a, b) => a + b, 0) || 1;
+                  const pct = Math.round((v / total) * 100);
+                  return `${ctx.label}: ${v} (${pct}%)`;
+                },
               },
             },
           },
         },
-      },
-    });
+      });
+    }
+    requestAnimationFrame(() => this.nodesChart?.resize());
   }
 }

@@ -176,6 +176,8 @@
     "charts": {
       "machineryStatus": "Maquinaria por estado",
       "nodesOnline": "Nodos IoT (conexión)",
+      "machineryHint": "Distribución según el campo de estado de cada unidad en la API.",
+      "nodesHint": "Online vs offline según el último estado reportado por cada nodo.",
       "noData": "Sin datos",
       "legendActive": "Activas",
       "legendMaintenance": "Mantenimiento",
