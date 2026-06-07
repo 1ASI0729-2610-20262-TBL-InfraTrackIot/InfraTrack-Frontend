@@ -1,0 +1,661 @@
+{
+  "app": {
+    "title": "InfraTrack",
+    "tagline": "Inteligencia de flota de código abierto para maquinaria pesada."
+  },
+  "nav": {
+    "controlPanel": "Panel de control",
+    "assetManagement": "Gestión de activos",
+    "telemetry": "Mapa GPS",
+    "reportsAnalytics": "Informes y analítica",
+    "performance": "Optimización y rendimiento",
+    "configuration": "Configuración y soporte",
+    "profile": "Cuenta"
+  },
+  "login": {
+    "brandDescription": "Plataforma empresarial de gestión logística y telemetría avanzada. Monitoreo en tiempo real para flotas de alto rendimiento.",
+    "welcomeTitle": "Bienvenido a InfraTrack",
+    "welcomeSubtitle": "Selecciona un perfil para ingresar a la plataforma (Modo Demo)",
+    "roleOwnerTitle": "Dueño de empresa",
+    "roleOwnerName": "Roberto Mendoza",
+    "roleOwnerDesc": "Vista estratégica · KPIs · reportes · ROI",
+    "badgeOwner": "owner",
+    "roleAdminTitle": "Administrador logístico",
+    "roleAdminName": "Carlos Vizcarra",
+    "roleAdminDesc": "Operación diaria · mapa · alertas · mantenimiento",
+    "badgeAdmin": "admin",
+    "footnote": "InfraTrack · Enterprise Edition",
+    "title": "Iniciar sesión",
+    "subtitle": "Usa tus credenciales para acceder a la consola InfraTrack.",
+    "username": "Usuario",
+    "usernameHint": "En esta demo basta un valor no vacío.",
+    "password": "Contraseña",
+    "submit": "Ingresar",
+    "errorRequired": "Ingresa un usuario para continuar."
+  },
+  "shell": {
+    "navSection": "Rutas de navegación",
+    "toggleSidebarAria": "Mostrar u ocultar menú lateral",
+    "profileLogout": "Perfil / Cerrar sesión",
+    "ownerSubscription": "Suscripción",
+    "adminAlerts": "Alertas",
+    "adminIotNodes": "Nodos IoT",
+    "adminMaintenance": "Mantenimiento"
+  },
+  "common": {
+    "welcome": "Bienvenido a InfraTrack",
+    "searchPlaceholder": "Buscar por ID, placa o…",
+    "emergency": "Emergencia",
+    "notifications": "Notificaciones",
+    "user": "Usuario",
+    "logout": "Cerrar sesión",
+    "breadcrumbHome": "Inicio",
+    "language": "Idioma",
+    "demoEmergency": "Canal de emergencia activado (demo).",
+    "demoSearch": "La búsqueda se conectará al backend en una iteración posterior.",
+    "httpPolicy": {
+      "demoNote": "Política activa: solo GET en red + POST de alta si está permitido (`src/app/shared/infratrack-http-policy.ts`). PUT y DELETE no se envían; los botones correspondientes se muestran deshabilitados.",
+      "putDeleteUiDisabled": "Guardar en servidor desactivado: en esta demo no se usa PUT. Revisa `infratrack-http-policy.ts` y pon `allowPutDelete: true` cuando tu API lo soporte."
+    }
+  },
+  "profile": {
+    "openProfilePage": "Abrir página de cuenta",
+    "pageTitle": "Mi cuenta",
+    "pageIntro": "Tu identidad en InfraTrack, ficha de operador y sesión.",
+    "accountSection": "Datos de la cuenta",
+    "operatorSection": "Perfil de operador",
+    "operatorName": "Nombre completo",
+    "operatorLicense": "Licencia",
+    "operatorPhone": "Teléfono",
+    "operatorState": "Estado",
+    "sessionSection": "Sesión",
+    "sessionHint": "Al cerrar sesión se borra la sesión y se asigna otro usuario de vista previa en este dispositivo.",
+    "badgeLive": "En vivo · MockAPI",
+    "badgePreview": "Vista previa · datos locales",
+    "apiSetupTitle": "Por qué no ves aún datos reales de MockAPI",
+    "apiSetupLine1": "La app llama GET sobre la base `identity` (ver `mock-api-bases.ts`). Ese proyecto devuelve HTTP 404 en las colecciones `users` y/o `operators`, así que la interfaz rellena filas demo para el id de vista previa.",
+    "apiSetupLine2": "En mockapi.io crea ambos recursos con los campos que definiste (id, username, email, role, …) y al menos un usuario cuyo id coincida con el id de vista previa en localStorage (`infratrack_preview_user_id`), o cambia `identity` a la URL de otro proyecto donde ya existan esas rutas. Luego recarga.",
+    "operatorDemoNote": "El usuario viene de MockAPI, pero no hay fila de operador con ese userId; se muestra un placeholder local hasta que `operators` tenga un registro enlazado.",
+    "guest": "Invitado",
+    "role": {
+      "admin": "Administrador",
+      "owner": "Propietario",
+      "technician": "Técnico",
+      "other": "Usuario"
+    },
+    "operatorStatus": {
+      "active": "Operador activo",
+      "inactive": "Operador inactivo"
+    },
+    "userIdLabel": "ID de usuario",
+    "memberSince": "Miembro desde",
+    "accountStatus": "Cuenta",
+    "accountActive": "Activa",
+    "accountInactive": "Inactiva",
+    "offlineDemo": "Vista previa: MockAPI no devolvió este usuario; se muestran datos demo locales para el mismo ID.",
+    "uiTitle": "Mi perfil",
+    "uiIntro": "Administra tu cuenta y revisa tu plan si eres propietario.",
+    "loadingProfile": "Cargando datos del usuario…",
+    "errorProfile": "Error al cargar el perfil de usuario.",
+    "demoUser": "Usuario demo",
+    "demoBadge": "Respaldo local",
+    "emailLabel": "Correo electrónico",
+    "logout": "Cerrar sesión",
+    "subscription": {
+      "sectionTitle": "Tu suscripción",
+      "sectionSubtitle": "Visible solo al iniciar sesión como propietario (owner). Datos desde la API.",
+      "updatePlan": "Actualizar plan",
+      "fieldPlan": "Plan actual",
+      "fieldPrice": "Precio",
+      "fieldMax": "Máx. maquinaria",
+      "fieldStatus": "Estado",
+      "fieldRenew": "Renovación automática",
+      "fieldDates": "Vigencia",
+      "yes": "Sí",
+      "no": "No",
+      "noData": "No encontramos una suscripción vinculada a tu usuario en la API.",
+      "noDataHint": "Puedes ir a «Actualizar plan» para ver los planes disponibles; al elegir uno se actualizará el registro si el servidor permite escritura (PUT)."
+    }
+  },
+  "subscriptionPlans": {
+    "backProfile": "← Volver al perfil",
+    "title": "Planes de suscripción",
+    "intro": "Elige Básico, Premium o Enterprise. Los cambios se guardan en el servidor con PUT cuando la política lo permite.",
+    "readOnlyHint": "Solo lectura: cambiar plan o renovación automática requiere permiso de escritura en el servidor (PUT). Pídele al administrador del proyecto que active esa opción en la política HTTP si usas MockAPI.",
+    "currentTitle": "Plan actual",
+    "chooseTitle": "Comparar planes",
+    "fieldPlan": "Plan",
+    "fieldPrice": "Precio",
+    "fieldMaxMachinery": "Máx. maquinaria",
+    "fieldStatus": "Estado",
+    "fieldDates": "Fechas",
+    "autoRenew": "Renovación automática",
+    "perMonth": "/ mes",
+    "maxMachinery": "Hasta {{n}} unidades",
+    "selectPlan": "Elegir este plan",
+    "currentBadge": "Plan actual",
+    "noRecord": "No hay registro de suscripción para tu usuario. Crea uno en MockAPI o revisa el filtro userId.",
+    "planSaved": "Plan actualizado.",
+    "planError": "No se pudo guardar. Revisa MockAPI y la política HTTP.",
+    "autoRenewSaved": "Preferencia de renovación guardada.",
+    "plan": {
+      "basic": {
+        "name": "Básico",
+        "tagline": "Flotas pequeñas y pilotos"
+      },
+      "premium": {
+        "name": "Premium",
+        "tagline": "Operación en crecimiento"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "tagline": "Escala y soporte prioritario"
+      }
+    }
+  },
+  "footer": {
+    "notice": "InfraTrack — Proyecto académico open source (UPC)."
+  },
+  "controlPanel": {
+    "title": "Panel de control",
+    "intro": "KPIs en vivo, telemetría en el mapa, gráficos con Chart.js y las últimas alertas con reconocimiento vía API.",
+    "load": {
+      "loading": "Cargando datos de la flota…",
+      "error": "No se pudieron cargar los datos del panel. Revisa la conexión e inténtalo de nuevo.",
+      "empty": "Las APIs no devolvieron datos (alertas / maquinaria).",
+      "retry": "Actualizar"
+    },
+    "kpis": {
+      "activeMachines": "Total maquinaria activa",
+      "criticalUnread": "Alertas críticas sin leer",
+      "onlineNodes": "Nodos online",
+      "upcomingMaintenance": "Próximos mantenimientos"
+    },
+    "map": {
+      "title": "Mini-mapa de flota",
+      "empty": "No hay posiciones de telemetría para dibujar en el mapa.",
+      "legendActive": "Activo",
+      "legendWarning": "Advertencia",
+      "legendIdle": "Inactivo",
+      "hint": "Desplázate y haz zoom en el mapa. Pulsa un marcador para ver la unidad. Datos © OpenStreetMap.",
+      "dataNote": "Las posiciones en el mapa se calculan a partir del registro de flota (la API no incluye coordenadas GPS).",
+      "dataNoteTelemetry": "Las posiciones usan la última telemetría (latitud / longitud) por unidad cuando existe; si no, un punto estable cerca de Lima.",
+      "markerStatus": {
+        "active": "Activo",
+        "warning": "Atención",
+        "idle": "Inactivo / sin señal"
+      },
+      "markers": {
+        "activeTitle": "Excavadora EX-02",
+        "activeBody": "Activo · Combustible 78% · Obra A",
+        "warningTitle": "Cargador LD-07",
+        "warningBody": "Advertencia · Temperatura de motor alta · Obra D",
+        "idleTitle": "Bulldozer BD-03",
+        "idleBody": "Inactivo · Estacionado 42 min · Patio B"
+      }
+    },
+    "charts": {
+      "machineryStatus": "Maquinaria por estado",
+      "nodesOnline": "Nodos IoT (conexión)",
+      "machineryHint": "Distribución según el campo de estado de cada unidad en la API.",
+      "nodesHint": "Online vs offline según el último estado reportado por cada nodo.",
+      "noData": "Sin datos",
+      "legendActive": "Activas",
+      "legendMaintenance": "Mantenimiento",
+      "legendInactive": "Inactivas",
+      "legendOther": "Otros estados",
+      "legendOnline": "Online",
+      "legendOffline": "Offline",
+      "legendNodesOther": "Otro estado"
+    },
+    "alerts": {
+      "title": "Alertas recientes",
+      "subtitle": "Últimas 5 alertas (orden por fecha)",
+      "empty": "No hay alertas para mostrar.",
+      "acknowledge": "Reconocer",
+      "ackError": "No se pudo reconocer la alerta. Inténtalo de nuevo.",
+      "time": "Tiempo",
+      "machine": "Máquina",
+      "alertType": "Tipo de alerta",
+      "severity": "Gravedad",
+      "status": "Estado"
+    },
+    "maintenance": {
+      "title": "Mantenimientos recientes",
+      "empty": "No hay registros de mantenimiento en la API.",
+      "serviceDate": "Fecha servicio",
+      "plate": "Placa",
+      "serviceType": "Tipo",
+      "description": "Descripción",
+      "costPen": "Costo (PEN)",
+      "nextService": "Próximo servicio",
+      "types": {
+        "oil_change": "Cambio de aceite",
+        "filter": "Filtros",
+        "tires": "Neumáticos",
+        "general": "General"
+      }
+    },
+    "severity": {
+      "warning": "Advertencia",
+      "critical": "Crítico"
+    },
+    "status": {
+      "active": "Activo",
+      "resolved": "Resuelto"
+    }
+  },
+  "assetManagement": {
+    "title": "Gestión de activos",
+    "intro": "Registro de maquinaria, evidencia fotográfica, nodos IoT y especificaciones técnicas.",
+    "fleetTable": "Máquinas de la flota",
+    "machineStatus": {
+      "active": "Activo",
+      "warning": "Advertencia",
+      "idle": "Inactivo",
+      "resolved": "Resuelto"
+    },
+    "fuelLevel": {
+      "high": "Alto",
+      "medium": "Medio",
+      "low": "Bajo",
+      "warning": "Advertencia"
+    },
+    "pagination": {
+      "summary": "Mostrando {{from}} – {{to}} de {{total}} máquinas"
+    },
+    "addMachine": "Añadir maquinaria",
+    "loadError": "No se pudo cargar la maquinaria desde MockAPI. Comprueba que exista el recurso `machinery` en el proyecto de asset-management (ver mock-api-bases.ts).",
+    "emptyFleet": "Aún no hay máquinas. Añade una con el botón de arriba o crea registros en MockAPI.",
+    "emptyFilter": "Ninguna máquina coincide con el estado o la placa indicados. Ajusta los filtros.",
+    "filter": {
+      "toolbarTitle": "Filtrar la flota",
+      "status": "Estado (API)",
+      "all": "Todos",
+      "plate": "Buscar por placa"
+    },
+    "apiStatus": {
+      "active": "Activo",
+      "inactive": "Inactivo",
+      "maintenance": "Mantenimiento"
+    },
+    "apiHint": {
+      "title": "Editar y eliminar con tu MockAPI",
+      "body": "Si el proyecto no tiene rutas por id, el servidor responde 404 a PUT y DELETE en /machinery/:id. La app entonces guarda cambios y borrados en localStorage de este navegador y los mezcla en la tabla; por eso puede parecer que «no persiste» al comparar con un GET crudo del servidor. Activa rutas por ítem en mockapi.io o usa un backend con REST completo para que todo quede en el servidor.",
+      "adminDelete": "El icono de eliminar solo aparece si iniciaste sesión con rol administrador."
+    },
+    "table": {
+      "id": "ID",
+      "machine": "Máquina",
+      "status": "Estado",
+      "fuel": "Combustible",
+      "location": "Ubicación",
+      "actions": "Acciones"
+    },
+    "action": {
+      "edit": "Editar maquinaria",
+      "delete": "Eliminar maquinaria"
+    },
+    "editDialog": {
+      "title": "Ficha y edición",
+      "createdAt": "Alta",
+      "iotTitle": "Nodos IoT (telemetría)",
+      "noNodes": "No hay nodos enlazados a esta máquina en /iotNodes.",
+      "operatorFallback": "Operador (solo ID)",
+      "save": "Guardar cambios",
+      "success": "Cambios guardados en el servidor.",
+      "savedLocalOnly": "MockAPI no acepta PUT en /machinery/:id (404). Los cambios se guardaron en este navegador (localStorage); GET /machinery seguirá mostrando datos viejos hasta que el backend coincida.",
+      "error": "No se pudieron guardar los cambios.",
+      "notFound": "No se encontró esa máquina en la lista cargada."
+    },
+    "deleteDialog": {
+      "title": "Eliminar maquinaria",
+      "message": "¿Seguro que deseas eliminar la unidad {{plate}}? Esta acción no se puede deshacer en el servidor.",
+      "cancel": "Cancelar",
+      "confirm": "Eliminar",
+      "success": "Unidad eliminada en el servidor.",
+      "removedLocalOnly": "DELETE por id no está disponible en MockAPI (404). La unidad se ocultó solo en este navegador; puede volver a aparecer si recargas desde otro dispositivo o si el servidor sigue devolviéndola.",
+      "error": "No se pudo eliminar. Revisa la red o MockAPI."
+    },
+    "addDialog": {
+      "title": "Nueva maquinaria",
+      "operatorId": "ID operador",
+      "plate": "Placa",
+      "brand": "Marca",
+      "model": "Modelo",
+      "fuelType": "Combustible",
+      "fuelDiesel": "Diésel",
+      "fuelGasoline": "Gasolina",
+      "tank": "Capacidad tanque (L)",
+      "status": "Estado en flota",
+      "statusActive": "Activo",
+      "statusInactive": "Inactivo",
+      "statusMaintenance": "Mantenimiento",
+      "imageUrl": "URL de imagen (opcional)",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "success": "Maquinaria registrada.",
+      "error": "No se pudo crear la maquinaria. Revisa los campos en MockAPI y tu conexión."
+    }
+  },
+  "telemetry": {
+    "title": "Mapa GPS",
+    "intro": "Mapa interactivo (Leaflet), datos de /machinery y /telemetryData; panel lateral con IoT y asignación de operador (solo admin).",
+    "map": {
+      "pageTitle": "Mapa GPS",
+      "intro": "Cada marcador usa la última posición de telemetría por nodo IoT. Pulsa un pin para abrir el panel de detalle.",
+      "refresh": "Actualizar datos",
+      "pickMachine": "Pulsa un círculo de color en el mapa (cada uno es una máquina) para ver placa, telemetría e IoT aquí.",
+      "close": "Cerrar panel",
+      "loadError": "No se pudieron cargar maquinaria, telemetría u operadores. Revisa la conexión.",
+      "loadPartial": "Algunas peticiones fallaron (red o MockAPI). El mapa puede mostrar datos incompletos; revisa la pestaña Red del navegador.",
+      "assignError": "No se pudo guardar en el servidor (error distinto de 404). Revisa la red o MockAPI.",
+      "assignLocalOnly": "Tu MockAPI no expone PUT en /machinery/:id (devuelve 404). El cambio de operador se aplicó solo en esta sesión; al recargar volverán los datos del servidor. En mockapi.io activa rutas por ítem o usa un backend con REST completo.",
+      "operatorDistribution": "Máquinas por operador (datos cargados ahora)",
+      "operatorRow": "{{name}}: {{count}} máquina(s)",
+      "legendActive": "Activo",
+      "legendMaintenance": "Mantenimiento",
+      "legendInactive": "Inactivo",
+      "fuel": "Nivel de combustible",
+      "engineHours": "Horas motor",
+      "speed": "Velocidad",
+      "telemetryTime": "Última telemetría",
+      "iotTitle": "Nodos IoT",
+      "noNodes": "No hay nodos vinculados para esta máquina.",
+      "noOperators": "No hay operadores en la API.",
+      "adminOnly": "Acción solo administrador",
+      "assignOperator": "Asignar operador",
+      "machineState": {
+        "active": "Activo",
+        "maintenance": "Mantenimiento",
+        "inactive": "Inactivo",
+        "other": "Otro estado"
+      },
+      "nodeStatus": {
+        "online": "Online",
+        "offline": "Offline",
+        "other": "Otro"
+      }
+    },
+    "sensors": {
+      "fuelLevel": "Nivel de combustible",
+      "engineTemp": "Temp. motor",
+      "rpm": "RPM",
+      "battery": "Batería"
+    },
+    "chart": {
+      "title": "Telemetría en tiempo real",
+      "fuelSeries": "Combustible %",
+      "tempSeries": "Temp. °C",
+      "batterySeries": "Batería %",
+      "hint": "Pasa el cursor sobre los puntos para ver valores. Pulsa la leyenda para mostrar u ocultar cada serie.",
+      "axisPercent": "Porcentaje",
+      "axisTemp": "Temperatura (°C)"
+    },
+    "timeline": {
+      "title": "Línea de tiempo de alertas",
+      "description": "Descripción",
+      "time": "Hora",
+      "status": "Estado",
+      "severity": "Gravedad"
+    },
+    "severity": {
+      "info": "Info",
+      "warning": "Advertencia",
+      "critical": "Crítico"
+    },
+    "status": {
+      "active": "Activo",
+      "resolved": "Resuelto"
+    }
+  },
+  "reports": {
+    "title": "Informes y analítica",
+    "intro": "Compara uso de flota, mezcla de alertas y tendencias de eficiencia. Los filtros solo afectan al conjunto de datos demo.",
+    "export": {
+      "pdf": "Exportar PDF",
+      "excel": "Exportar Excel",
+      "demoPdf": "La exportación PDF se conectará a la API de informes más adelante.",
+      "demoExcel": "La exportación Excel se conectará a la API de informes más adelante."
+    },
+    "filters": {
+      "toolbarCharts": "Filtros de gráficos (demo)",
+      "dateRange": "Rango de fechas",
+      "project": "Proyecto",
+      "machine": "Máquina",
+      "optLast7": "Últimos 7 días",
+      "optLast30": "Últimos 30 días",
+      "optLast90": "Últimos 90 días",
+      "optAllProjects": "Todos los proyectos",
+      "optProjectA": "Proyecto Alfa",
+      "optProjectB": "Proyecto Beta",
+      "optAllMachines": "Todas las máquinas",
+      "optExcavators": "Solo excavadoras",
+      "optLoaders": "Solo cargadores"
+    },
+    "charts": {
+      "fleetTitle": "Horas de flota por mes",
+      "statusTitle": "Distribución del estado de la flota",
+      "weeklyTitle": "Tendencia de eficiencia (semanal)",
+      "trendTitle": "Volumen de alertas por gravedad",
+      "excavators": "Excavadoras",
+      "loaders": "Cargadores",
+      "cranes": "Grúas",
+      "monthJan": "Ene",
+      "monthFeb": "Feb",
+      "monthMar": "Mar",
+      "monthApr": "Abr",
+      "statusActive": "Activo",
+      "statusIdle": "Inactivo",
+      "statusMaintenance": "Mantenimiento",
+      "statusOffline": "Fuera de línea",
+      "efficiencySeries": "Índice de eficiencia",
+      "severityCritical": "Crítico",
+      "severityWarning": "Advertencia",
+      "severityInfo": "Info",
+      "alertVolume": "Volumen de alertas"
+    },
+    "alertsCenter": {
+      "title": "Centro de alertas",
+      "intro": "Listado desde GET /alerts. Filtros por gravedad, tipo y reconocimiento. El interruptor llama a PUT /alerts/:id; si MockAPI devuelve 404, el estado se guarda en este navegador.",
+      "loadError": "No se pudieron cargar las alertas. Revisa /alerts en el proyecto del panel (mock-api-bases).",
+      "ownerHint": "Como propietario solo ves alertas con gravedad crítica.",
+      "filterSeverity": "Gravedad",
+      "filterType": "Tipo",
+      "filterAck": "Reconocimiento",
+      "optAll": "Todos",
+      "optAcknowledged": "Reconocidas",
+      "optPending": "Pendientes",
+      "colId": "Id",
+      "colTime": "Fecha / hora",
+      "colMachine": "Id maquinaria",
+      "colType": "Tipo",
+      "colSeverity": "Gravedad",
+      "colDesc": "Descripción",
+      "colAck": "Reconocida",
+      "empty": "No hay alertas que coincidan con los filtros.",
+      "loginToAck": "Inicia sesión para poder reconocer o desmarcar alertas.",
+      "ackLocalOnly": "PUT /alerts/:id no está disponible (404). El reconocimiento se guardó solo en localStorage en este navegador.",
+      "ackError": "No se pudo actualizar la alerta.",
+      "createOpen": "Nueva alerta",
+      "createTitle": "Registrar alerta (POST /alerts)",
+      "createSubmit": "Crear",
+      "cancel": "Cancelar",
+      "createSuccess": "Alerta creada.",
+      "createError": "No se pudo crear la alerta.",
+      "machineryId": "Id maquinaria",
+      "type": {
+        "fuel_theft": "Combustible / anomalía",
+        "idle_excess": "Ralentí excesivo",
+        "maintenance": "Mantenimiento",
+        "geofence": "Geocerca",
+        "other": "Otro"
+      },
+      "sev": {
+        "critical": "Crítico",
+        "warning": "Advertencia",
+        "other": "Otra"
+      }
+    },
+    "period": {
+      "title": "Resumen del periodo",
+      "totalFuel": "Combustible total usado",
+      "avgEfficiency": "Eficiencia media",
+      "activeHours": "Horas activas",
+      "alertsResolved": "Alertas resueltas",
+      "costSavings": "Ahorro estimado"
+    }
+  },
+  "performance": {
+    "title": "Optimización y rendimiento",
+    "intro": "Indicadores calculados desde MockAPI (alertas, telemetría, maquinaria, operadores), más alertas recientes y la lista de operadores.",
+    "metrics": {
+      "idleShare": "Participación de ralentí excesivo",
+      "idleShareHint": "Alertas tipo ralentí ÷ tamaño de flota (nº de máquinas).",
+      "operatorCoverage": "Cobertura de operadores activos",
+      "operatorCoverageHint": "Porcentaje de operadores con estado activo en /operators.",
+      "fuelDelta": "Combustible vs. plan de referencia",
+      "fuelDeltaHint": "Media del % de combustible en telemetría menos un objetivo del 75%."
+    },
+    "actions": {
+      "refresh": "Actualizar desde API"
+    },
+    "loadError": "No se pudo acceder a alguna API de rendimiento. Revisa las URLs MockAPI y la red.",
+    "loadEmpty": "Todos los endpoints devolvieron listas vacías. Rellena MockAPI o revisa las bases.",
+    "alertsSection": "Alertas recientes de rendimiento",
+    "operatorsSection": "Perfiles de operadores",
+    "emptyAlerts": "No hay alertas de ralentí, combustible, mantenimiento o geocerca para mostrar.",
+    "emptyOperators": "La API no devolvió operadores.",
+    "table": {
+      "time": "Hora",
+      "machine": "Unidad",
+      "type": "Tipo",
+      "severity": "Gravedad",
+      "opName": "Nombre",
+      "opLicense": "Licencia",
+      "opPhone": "Teléfono",
+      "opStatus": "Estado",
+      "actions": "Acciones"
+    },
+    "alertType": {
+      "idle_excess": "Ralentí excesivo",
+      "fuel_theft": "Anomalía de combustible",
+      "maintenance": "Mantenimiento",
+      "geofence": "Geocerca"
+    },
+    "editOperator": {
+      "open": "Editar operador",
+      "title": "Editar operador",
+      "fullName": "Nombre completo",
+      "phone": "Teléfono",
+      "save": "Guardar cambios",
+      "cancel": "Cancelar",
+      "success": "Operador actualizado.",
+      "error": "No se pudo guardar. Revisa MockAPI y los campos."
+    },
+    "deleteOperator": {
+      "open": "Eliminar operador",
+      "title": "Eliminar operador",
+      "body": "¿Eliminar a {{name}} en MockAPI? No se puede deshacer.",
+      "confirm": "Eliminar",
+      "cancel": "Cancelar",
+      "success": "Operador eliminado.",
+      "error": "No se pudo eliminar. Comprueba si sigue enlazado a maquinaria."
+    }
+  },
+  "configuration": {
+    "title": "Configuración y soporte",
+    "intro": "Consulta el estado de la flota, gestiona nodos IoT (administradores) y revisa suscripciones. Los datos se cargan desde el servidor al abrir la página o al pulsar actualizar.",
+    "actions": {
+      "refreshApi": "Actualizar datos",
+      "addIotNode": "Añadir nodo IoT",
+      "addMaintenance": "Añadir mantenimiento"
+    },
+    "sections": {
+      "account": "Cuenta",
+      "apiSummary": "Resumen de flota",
+      "subscriptionsSection": "Suscripciones"
+    },
+    "accountCardSubtitle": "Perfil, rol y sesión",
+    "fleetCardSubtitle": "Indicadores calculados con la información actual del servidor",
+    "subsCardSubtitle": "Planes activos o históricos registrados",
+    "accountTeaser": "Abre tu perfil para ver rol, datos de contacto, operador enlazado y cerrar sesión.",
+    "accountLink": "Ir a mi cuenta",
+    "api": {
+      "empty": "Los endpoints de configuración devolvieron todo vacío. Rellena maquinaria, nodos IoT, mantenimientos o suscripciones en MockAPI.",
+      "machineryTotal": "Maquinaria (total)",
+      "machineryActive": "Unidades activas",
+      "machineryMaint": "En mantenimiento",
+      "iotTotal": "Nodos IoT",
+      "iotOnline": "Nodos en línea",
+      "maintTotal": "Registros de mantenimiento",
+      "maintDueSoon": "Próximo servicio ≤ 30 días"
+    },
+    "subscriptionTable": {
+      "colId": "ID",
+      "colDetail": "Plan / estado"
+    },
+    "iot": {
+      "sectionTitle": "Nodos IoT",
+      "cardSubtitle": "Solo administradores. Estado de cada dispositivo, registro de equipos nuevos y asignación a una máquina de la flota.",
+      "emptyNodes": "Aún no hay nodos registrados. Puedes añadir uno con el botón superior o cargar datos de prueba en el servidor.",
+      "nonAdmin": "Esta sección solo la ven los administradores. Si necesitas gestionar nodos, inicia sesión con un usuario administrador.",
+      "colNodeId": "Identificador",
+      "colStatus": "Conexión",
+      "colBattery": "Batería (V)",
+      "colLastSeen": "Última conexión",
+      "colFirmware": "Firmware",
+      "colMachine": "Máquina vinculada",
+      "colLink": "Asignación",
+      "chooseMachine": "Elegir máquina",
+      "saveLink": "Guardar",
+      "unlinkedMachine": "Sin máquina coincidente",
+      "tableFoot": "Los nodos no se eliminan para conservar historial. Guardar una nueva asignación solo está disponible si el entorno permite escritura en el servidor.",
+      "linkSuccess": "Asignación guardada correctamente.",
+      "linkError": "No se pudo guardar la asignación. Comprueba la conexión y la configuración del entorno.",
+      "readOnlyHint": "Solo lectura: cambiar la máquina asignada a un nodo requiere escritura en el servidor. En la demo suele estar desactivado; el administrador del proyecto puede habilitarlo en la política HTTP.",
+      "status": {
+        "online": "En línea",
+        "offline": "Fuera de línea"
+      }
+    },
+    "addIot": {
+      "title": "Registrar nodo IoT",
+      "machineryId": "Maquinaria",
+      "machineryHint": "Enlaza el nodo a una máquina de MockAPI.",
+      "nodeIdentifier": "Identificador del nodo",
+      "firmwareVersion": "Versión de firmware",
+      "batteryVoltage": "Batería (V)",
+      "connectionStatus": "Conexión",
+      "online": "En línea",
+      "offline": "Fuera de línea",
+      "lastSeen": "Última vez visto (ISO)",
+      "lastSeenHint": "Ejemplo: marca de tiempo ISO completa del dispositivo.",
+      "noMachinery": "No hay maquinaria en la API. Crea al menos una unidad en Gestión de activos primero.",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "success": "Nodo IoT creado.",
+      "error": "No se pudo crear el nodo IoT. Revisa MockAPI e inténtalo de nuevo."
+    },
+    "addMaint": {
+      "title": "Registrar mantenimiento",
+      "machineryId": "Maquinaria",
+      "serviceType": "Tipo de servicio",
+      "typeOil": "Cambio de aceite",
+      "typeFilter": "Filtro",
+      "typeTires": "Neumáticos",
+      "typeGeneral": "General",
+      "description": "Descripción",
+      "costPen": "Coste (PEN)",
+      "engineHours": "Horas de motor en el servicio",
+      "serviceDate": "Fecha del servicio",
+      "nextServiceDate": "Próximo servicio",
+      "nextHint": "Se usa para “próximo servicio ≤ 30 días” en el resumen.",
+      "noMachinery": "No hay maquinaria en la API. Crea al menos una unidad en Gestión de activos primero.",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "success": "Registro de mantenimiento creado.",
+      "error": "No se pudo crear el mantenimiento. Revisa MockAPI e inténtalo de nuevo."
+    }
+  }
+}
