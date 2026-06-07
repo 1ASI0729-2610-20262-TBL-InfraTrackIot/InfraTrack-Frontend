@@ -1,7 +1,0 @@
-.app-footer {
-  padding: 0.875rem clamp(1rem, 3vw, 2rem);
-  font-size: 0.75rem;
-  color: var(--it-text-muted);
-  border-top: 1px solid var(--it-border);
-  background: var(--it-surface);
-}
