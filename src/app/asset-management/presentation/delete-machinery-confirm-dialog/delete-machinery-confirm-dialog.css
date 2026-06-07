@@ -1,0 +1,10 @@
+.msg {
+  margin: 0;
+  max-width: 28rem;
+  line-height: 1.45;
+}
+
+mat-dialog-actions mat-progress-spinner {
+  display: inline-block;
+  vertical-align: middle;
+}
