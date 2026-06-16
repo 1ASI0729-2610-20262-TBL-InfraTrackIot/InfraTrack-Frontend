@@ -1,59 +1,60 @@
-# InfraTrack
-
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.10.
-
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# InfraTrack Frontend (`infra-track`)
+
+## Overview
+
+Angular 21 client for heavy-machinery fleet monitoring (InfraTrack / Digital Machine). The codebase follows **DDD by bounded context**.
+
+Frontend-only for now: demo data and `localStorage` / `sessionStorage` where there is no backend.
+
+## Bounded contexts (4 + iam + shared)
+
+| Context | Responsibility | Main routes |
+|---------|----------------|-------------|
+| **`iam`** | Onboarding, login, roles, session, guards | `/iam/*` |
+| **`monitoring`** | Dashboards, GPS map, alerts, reports | Owner: `/control-panel`, `/reports-analytics`; Admin: `/operacion`; optional: `/telemetry` |
+| **`fleet`** | IoT nodes, transports, drivers, owner configuration | Admin: `/dispositivos`, `/transportes`, `/conductores`; Owner: `/configuration` |
+| **`site-management`** | Worksites, staff assignment (owner) | `/obras/*` |
+| **`shared`** | Shell, profile, i18n, HTTP policy, plan limits | `/profile`, layout |
+
+Legacy redirects: `/asset-management` → `/configuration`, `/performance` → `/conductores`.
+
+## Layer structure
+
+Each bounded context under `src/app/<context>/`:
+
+```text
+domain/model/          # Entities, commands
+application/           # Stores (*.store.ts)
+infrastructure/        # API facades, endpoints, assemblers/mappers
+presentation/
+  views/               # Route-level components
+  <context>.routes.ts  # Lazy routes for this context
+```
+
+**`shared/`** — cross-cutting UI and infrastructure only (no business rules).
+
+## Environments
+
+| File | Purpose |
+|------|---------|
+| `src/environments/environment.ts` | Production |
+| `src/environments/environment.development.ts` | Local dev |
+
+`scripts/inject-api-bases.mjs` runs before build for CI/Vercel.
+
+## Run
+
+```bash
+npm install
+npm start
+```
+
+Open `http://localhost:4200/` → `/iam/sign-in`.
+
+- **Owner:** signup → plans → `/control-panel` + sidebar obras.
+- **Admin:** ops login → `/operacion` + dispositivos / transportes / conductores.
+
+```bash
+npm run build
+```
+
