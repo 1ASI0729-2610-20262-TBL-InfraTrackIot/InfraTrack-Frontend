@@ -57,7 +57,8 @@
     "noAccountOps": "New to the fleet?",
     "opsRegisterLink": "Register with company code",
     "errorAuth": "Invalid credentials or the server did not respond. Check your username and password.",
-    "errorWrongEntity": "This account does not match this entity type. Use the correct sign-in (company owner or operations)."
+    "errorWrongEntity": "This account does not match this entity type. Use the correct sign-in (company owner or operations).",
+    "serverWaking": "Waking up the Render server… The first request may take up to a minute."
   },
   "signup": {
     "ownerHeroEyebrow": "Entity registration",

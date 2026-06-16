@@ -16,6 +16,12 @@
   </section>
 
   <section class="auth-split-panel">
+    @if (serverWaking()) {
+      <p class="auth-server-waking" role="status">
+        <span class="auth-server-waking__spinner" aria-hidden="true"></span>
+        {{ 'login.serverWaking' | translate }}
+      </p>
+    }
     <ng-content />
   </section>
 </div>

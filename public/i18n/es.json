@@ -57,7 +57,8 @@
     "noAccountOps": "¿Eres nuevo en la flota?",
     "opsRegisterLink": "Registro con código de empresa",
     "errorAuth": "Credenciales incorrectas o el servidor no respondió. Verifica usuario y contraseña.",
-    "errorWrongEntity": "Esta cuenta no corresponde a este tipo de entidad. Usa el acceso correcto (constructora u operativo)."
+    "errorWrongEntity": "Esta cuenta no corresponde a este tipo de entidad. Usa el acceso correcto (constructora u operativo).",
+    "serverWaking": "Despertando el servidor en Render… La primera vez puede tardar hasta 1 minuto."
   },
   "signup": {
     "ownerHeroEyebrow": "Registro de entidad",
