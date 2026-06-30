@@ -1,6 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, map, Observable, of, switchMap, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { UserRole } from '../domain/model/user.entity';
 import { SignInCommand } from '../domain/model/sign-in.command';
@@ -60,20 +60,40 @@ export class IamStore {
   signIn(
     signInCommand: SignInCommand,
     router: Router,
-    options?: { expectedRole?: 'owner' | 'admin'; onError?: (reason?: 'auth' | 'wrongEntity') => void },
+    options?: {
+      expectedRole?: 'owner' | 'admin';
+      onError?: (reason?: 'auth' | 'wrongEntity' | 'provision') => void;
+      afterAuth?: (resource: SignInResource) => Observable<void>;
+    },
   ): void {
     this.authBusySignal.set(true);
     this.iamApi.signIn(signInCommand).subscribe({
       next: (resource) => {
-        this.authBusySignal.set(false);
         const role = this.resolveRole(resource.role);
         if (options?.expectedRole && role !== options.expectedRole) {
+          this.authBusySignal.set(false);
           this.clearSession(false);
           options.onError?.('wrongEntity');
           return;
         }
         this.applySignIn(resource, role);
-        void router.navigateByUrl(this.homeUrlForRole(role));
+        const finish = (ok: boolean, reason: 'auth' | 'provision' = 'auth') => {
+          this.authBusySignal.set(false);
+          if (!ok) {
+            this.clearSession(true);
+            options?.onError?.(reason);
+            return;
+          }
+          void router.navigateByUrl(this.homeUrlForRole(role));
+        };
+        if (options?.afterAuth) {
+          options.afterAuth(resource).subscribe({
+            next: () => finish(true),
+            error: () => finish(false, 'provision'),
+          });
+          return;
+        }
+        finish(true);
       },
       error: () => {
         this.authBusySignal.set(false);
@@ -83,53 +103,25 @@ export class IamStore {
     });
   }
 
-  signUpThenSignIn(
-    username: string,
-    password: string,
-    roles: string[],
+  /**
+   * Registers a user and routes to the sign-in flow on success (learning-center pattern).
+   */
+  signUp(
+    signUpCommand: SignUpCommand,
     router: Router,
-    options?: {
-      expectedRole?: 'owner' | 'admin';
-      afterAuth?: (resource: SignInResource) => Observable<void>;
-    },
-  ): Observable<boolean> {
-    const trimmed = username.trim();
+    options?: { loginUrl?: string; onError?: () => void },
+  ): void {
     this.authBusySignal.set(true);
-    return this.iamApi.signUp(new SignUpCommand(trimmed, password, roles)).pipe(
-      catchError(() => of(null)),
-      switchMap(() => this.iamApi.signIn(new SignInCommand({ username: trimmed, password }))),
-      switchMap((resource) => {
-        const role = this.resolveRole(resource.role);
-        if (options?.expectedRole && role !== options.expectedRole) {
-          this.authBusySignal.set(false);
-          this.clearSession(false);
-          return of(false);
-        }
-        // Token must exist before afterAuth (e.g. POST /operators, POST /worksites/staff).
-        this.applySignIn(resource, role);
-        const provision = options?.afterAuth
-          ? options.afterAuth(resource).pipe(
-              map(() => true),
-              catchError(() => of(false)),
-            )
-          : of(true);
-        return provision.pipe(
-          tap((ok) => {
-            this.authBusySignal.set(false);
-            if (!ok) {
-              this.clearSession(true);
-              return;
-            }
-            void router.navigateByUrl(this.homeUrlForRole(role));
-          }),
-        );
-      }),
-      catchError(() => {
+    this.iamApi.signUp(signUpCommand).subscribe({
+      next: () => {
         this.authBusySignal.set(false);
-        this.clearSession(false);
-        return of(false);
-      }),
-    );
+        void router.navigateByUrl(options?.loginUrl ?? '/iam/sign-in');
+      },
+      error: () => {
+        this.authBusySignal.set(false);
+        options?.onError?.();
+      },
+    });
   }
 
   signOut(router: Router): void {

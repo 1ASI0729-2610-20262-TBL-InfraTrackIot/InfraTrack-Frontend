@@ -93,6 +93,7 @@
     "errorRequired": "Completa todos los campos obligatorios.",
     "errorPasswordLength": "La contraseña debe tener al menos 8 caracteres.",
     "errorAuth": "No se pudo crear la cuenta o iniciar sesión. Revisa los datos o usa otro correo.",
+    "errorSignUp": "No se pudo crear la cuenta. Revisa los datos o usa otro correo.",
     "errorInvalidCompanyCode": "El código debe tener el formato INFRA-EMPRESA-2026 (copiado del dueño).",
     "errorProvision": "La cuenta se creó pero no se registró en el personal. Reinicia el backend y vuelve a intentar.",
     "plansTitle": "Elige un plan",
@@ -135,6 +136,8 @@
     "companyCodeLabel": "Código único de empresa",
     "companyCodeShareHint": "Los administradores logísticos lo usarán en su registro (Flujo B).",
     "enterDashboard": "Ir al panel de control",
+    "goToSignIn": "Finalizar registro e iniciar sesión",
+    "registrationSuccess": "Registro exitoso. Inicia sesión con tu cuenta creada.",
     "backToDashboard": "Volver al panel de control"
   },
   "shell": {

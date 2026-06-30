@@ -362,6 +362,16 @@ button.auth-submit.auth-submit--loading::after {
   font-size: 0.8125rem;
 }
 
+.auth-success {
+  margin: 0 0 0.65rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(45, 138, 138, 0.08);
+  border: 1px solid rgba(45, 138, 138, 0.25);
+  color: #0f766e;
+  font-size: 0.8125rem;
+}
+
 .auth-success-box {
   margin-top: 0.85rem;
   padding: 0.85rem 1rem;

@@ -84,13 +84,13 @@
         type="button"
         class="plans-dashboard-cta"
         [class.plans-dashboard-cta--loading]="iam.authBusy()"
-        (click)="enterDashboard()"
+        (click)="completeRegistration()"
         [disabled]="iam.authBusy()"
       >
         @if (isProfileContext()) {
           {{ 'signup.backToDashboard' | translate }}
         } @else {
-          {{ 'signup.enterDashboard' | translate }}
+          {{ 'signup.goToSignIn' | translate }}
         }
         <span class="material-icons-outlined">arrow_forward</span>
       </button>

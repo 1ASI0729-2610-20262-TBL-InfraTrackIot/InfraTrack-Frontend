@@ -93,6 +93,7 @@
     "errorRequired": "Please complete all required fields.",
     "errorPasswordLength": "Password must be at least 8 characters.",
     "errorAuth": "Could not create the account or sign in. Check your details or use another email.",
+    "errorSignUp": "Could not create the account. Check your details or use another email.",
     "errorInvalidCompanyCode": "Code must match INFRA-COMPANY-2026 format (from the owner).",
     "errorProvision": "Account was created but staff registration failed. Restart the backend and try again.",
     "plansTitle": "Choose a plan",
@@ -135,6 +136,8 @@
     "companyCodeLabel": "Unique company code",
     "companyCodeShareHint": "Logistics administrators will use it when signing up (Flow B).",
     "enterDashboard": "Go to control panel",
+    "goToSignIn": "Finish registration and sign in",
+    "registrationSuccess": "Registration successful. Sign in with your new account.",
     "backToDashboard": "Back to control panel"
   },
   "shell": {

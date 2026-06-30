@@ -22,6 +22,10 @@
         <p>{{ 'login.ownerLoginSubtitle' | translate }}</p>
       </header>
 
+      @if (successMessage(); as ok) {
+        <p class="auth-success" role="status">{{ ok | translate }}</p>
+      }
+
       @if (errorMessage(); as err) {
         <p class="auth-error" role="alert">{{ err | translate }}</p>
       }

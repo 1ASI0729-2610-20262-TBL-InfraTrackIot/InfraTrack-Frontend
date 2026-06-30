@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { IamStore } from '../../../application/iam.store';
+import { SignUpCommand } from '../../../domain/model/sign-up.command';
 import {
   OnboardingDraftStore,
   SubscriptionPlanId,
@@ -129,7 +130,7 @@ export class OwnerPlansPage {
     this.step.set('success');
   }
 
-  enterDashboard(): void {
+  completeRegistration(): void {
     if (this.isProfileContext()) {
       void this.router.navigateByUrl('/control-panel');
       return;
@@ -141,14 +142,13 @@ export class OwnerPlansPage {
       return;
     }
     this.authError.set(null);
-    this.iam
-      .signUpThenSignIn(draft.email, draft.password, ['ROLE_OWNER'], this.router, {
-        expectedRole: 'owner',
-      })
-      .subscribe((ok) => {
-        if (!ok) {
-          this.authError.set('signup.errorAuth');
-        }
-      });
+    this.iam.signUp(
+      new SignUpCommand(draft.email, draft.password, ['ROLE_OWNER']),
+      this.router,
+      {
+        loginUrl: '/iam/owner/login?registered=1',
+        onError: () => this.authError.set('signup.errorSignUp'),
+      },
+    );
   }
 }

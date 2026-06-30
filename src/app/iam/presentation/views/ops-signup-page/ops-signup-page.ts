@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { IamStore } from '../../../application/iam.store';
-import { OpsOnboardingService } from '../../../application/ops-onboarding.service';
+import { SignUpCommand } from '../../../domain/model/sign-up.command';
 import { OnboardingDraftStore } from '../../../application/onboarding-draft.store';
 import { AuthSplitShell } from '../../components/auth-split-shell/auth-split-shell';
 
@@ -17,7 +17,6 @@ import { AuthSplitShell } from '../../components/auth-split-shell/auth-split-she
 export class OpsSignupPage {
   private readonly router = inject(Router);
   private readonly drafts = inject(OnboardingDraftStore);
-  private readonly opsOnboarding = inject(OpsOnboardingService);
   protected readonly iam = inject(IamStore);
 
   private static readonly COMPANY_CODE_PATTERN = /^INFRA-[A-Z0-9-]+$/;
@@ -60,16 +59,9 @@ export class OpsSignupPage {
 
     this.errorMessage.set(null);
     this.drafts.saveOpsDraft({ fullName, email, password, companyCode });
-    this.iam
-      .signUpThenSignIn(email, password, ['ROLE_ADMIN'], this.router, {
-        expectedRole: 'admin',
-        afterAuth: (resource) =>
-          this.opsOnboarding.provisionStaff(resource, { fullName, email }),
-      })
-      .subscribe((ok) => {
-        if (!ok) {
-          this.errorMessage.set('signup.errorProvision');
-        }
-      });
+    this.iam.signUp(new SignUpCommand(email, password, ['ROLE_ADMIN']), this.router, {
+      loginUrl: '/iam/ops/login?registered=1',
+      onError: () => this.errorMessage.set('signup.errorSignUp'),
+    });
   }
 }

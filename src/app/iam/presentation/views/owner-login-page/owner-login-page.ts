@@ -1,5 +1,5 @@
-import { Component, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -13,14 +13,22 @@ import { AuthSplitShell } from '../../components/auth-split-shell/auth-split-she
   templateUrl: './owner-login-page.html',
   styleUrl: './owner-login-page.css',
 })
-export class OwnerLoginPage {
+export class OwnerLoginPage implements OnInit {
   protected readonly store = inject(IamStore);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   protected readonly email = signal('');
   protected readonly password = signal('');
   protected readonly hidePassword = signal(true);
   protected readonly errorMessage = signal<string | null>(null);
+  protected readonly successMessage = signal<string | null>(null);
+
+  ngOnInit(): void {
+    if (this.route.snapshot.queryParamMap.get('registered') === '1') {
+      this.successMessage.set('signup.registrationSuccess');
+    }
+  }
 
   back(): void {
     void this.router.navigate(['/iam/sign-in']);
@@ -38,6 +46,7 @@ export class OwnerLoginPage {
       return;
     }
     this.errorMessage.set(null);
+    this.successMessage.set(null);
     this.store.signIn(new SignInCommand({ username: mail, password }), this.router, {
       expectedRole: 'owner',
       onError: (reason) =>

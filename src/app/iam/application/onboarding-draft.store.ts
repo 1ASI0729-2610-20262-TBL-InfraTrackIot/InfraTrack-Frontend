@@ -58,6 +58,10 @@ export class OnboardingDraftStore {
     }
   }
 
+  clearOpsDraft(): void {
+    sessionStorage.removeItem(OPS_DRAFT_KEY);
+  }
+
   setSelectedPlan(plan: SubscriptionPlanId): void {
     sessionStorage.setItem(SELECTED_PLAN_KEY, plan);
     this.selectedPlanSignal.set(plan);
