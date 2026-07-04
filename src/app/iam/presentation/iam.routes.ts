@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { guestGuard } from '../infrastructure/iam.guard';
+import { paymentGuard } from '../infrastructure/payment.guard';
 
 const loginPage = () =>
   import('./views/login-page/login-page').then((m) => m.LoginPage);
@@ -9,6 +10,8 @@ const ownerSignupPage = () =>
   import('./views/owner-signup-page/owner-signup-page').then((m) => m.OwnerSignupPage);
 const ownerPlansPage = () =>
   import('./views/owner-plans-page/owner-plans-page').then((m) => m.OwnerPlansPage);
+const ownerPaymentPage = () =>
+  import('./views/owner-payment-page/owner-payment-page').then((m) => m.OwnerPaymentPage);
 const opsLoginPage = () =>
   import('./views/ops-login-page/ops-login-page').then((m) => m.OpsLoginPage);
 const opsSignupPage = () =>
@@ -39,6 +42,12 @@ export const iamRoutes: Routes = [
     canActivate: [guestGuard],
     loadComponent: ownerPlansPage,
     title: 'InfraTrack - Subscription Plans',
+  },
+  {
+    path: 'owner/payment',
+    canActivate: [paymentGuard],
+    loadComponent: ownerPaymentPage,
+    title: 'InfraTrack - Payment',
   },
   {
     path: 'ops/login',

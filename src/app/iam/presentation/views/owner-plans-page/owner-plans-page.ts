@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -26,7 +26,7 @@ interface PlanOption {
   templateUrl: './owner-plans-page.html',
   styleUrl: './owner-plans-page.css',
 })
-export class OwnerPlansPage {
+export class OwnerPlansPage implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly drafts = inject(OnboardingDraftStore);
@@ -98,6 +98,16 @@ export class OwnerPlansPage {
 
   protected readonly ownerDraft = computed(() => this.drafts.ownerDraft());
 
+  ngOnInit(): void {
+    if (this.route.snapshot.queryParamMap.get('step') === 'success') {
+      const companyName = this.displayCompanyName();
+      const code =
+        this.drafts.companyCode() ?? this.drafts.generateAndSaveCompanyCode(companyName);
+      this.companyCode.set(code);
+      this.step.set('success');
+    }
+  }
+
   back(): void {
     if (this.step() === 'success') {
       this.step.set('select');
@@ -124,10 +134,14 @@ export class OwnerPlansPage {
     this.drafts.setSelectedPlan(planId);
 
     const companyName = this.displayCompanyName();
-    const code =
-      this.drafts.companyCode() ?? this.drafts.generateAndSaveCompanyCode(companyName);
-    this.companyCode.set(code);
-    this.step.set('success');
+    this.drafts.generateAndSaveCompanyCode(companyName);
+
+    if (this.isProfileContext()) {
+      void this.router.navigate(['/iam/owner/payment'], { queryParams: { from: 'profile' } });
+      return;
+    }
+
+    void this.router.navigate(['/iam/owner/payment']);
   }
 
   completeRegistration(): void {

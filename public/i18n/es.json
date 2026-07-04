@@ -140,6 +140,25 @@
     "registrationSuccess": "Registro exitoso. Inicia sesión con tu cuenta creada.",
     "backToDashboard": "Volver al panel de control"
   },
+  "payment": {
+    "title": "Datos de facturación",
+    "selectedPlan": "Plan seleccionado:",
+    "cardSection": "Tarjeta",
+    "cardNumber": "Número de tarjeta",
+    "cardNumberPlaceholder": "0000 0000 0000 0000",
+    "expiration": "Vencimiento",
+    "expirationPlaceholder": "MM/AA",
+    "securityCode": "Código de seguridad",
+    "securityCodePlaceholder": "CVV",
+    "confirmCta": "Confirmar pago",
+    "backToPlans": "Volver a planes",
+    "simulationHint": "Pasarela simulada para demostración. No se realizará ningún cargo real.",
+    "errorRequired": "Completa todos los datos de la tarjeta.",
+    "errorCardNumber": "Ingresa un número de tarjeta válido (16 dígitos).",
+    "errorExpiration": "Ingresa la fecha de vencimiento en formato MM/AA.",
+    "errorSecurityCode": "Ingresa un código de seguridad válido.",
+    "errorProcessing": "No se pudo procesar el pago. Intenta nuevamente."
+  },
   "shell": {
     "navSection": "Menú principal",
     "systemTitle": "Sistema de gestión de monitoreo",

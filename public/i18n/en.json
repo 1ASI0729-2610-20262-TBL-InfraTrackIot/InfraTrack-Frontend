@@ -140,6 +140,25 @@
     "registrationSuccess": "Registration successful. Sign in with your new account.",
     "backToDashboard": "Back to control panel"
   },
+  "payment": {
+    "title": "Billing information",
+    "selectedPlan": "Selected plan:",
+    "cardSection": "Card",
+    "cardNumber": "Card number",
+    "cardNumberPlaceholder": "0000 0000 0000 0000",
+    "expiration": "Expiration",
+    "expirationPlaceholder": "MM/YY",
+    "securityCode": "Security code",
+    "securityCodePlaceholder": "CVV",
+    "confirmCta": "Confirm payment",
+    "backToPlans": "Back to plans",
+    "simulationHint": "Simulated gateway for demo purposes. No real charge will be made.",
+    "errorRequired": "Please complete all card details.",
+    "errorCardNumber": "Enter a valid card number (16 digits).",
+    "errorExpiration": "Enter expiration date in MM/YY format.",
+    "errorSecurityCode": "Enter a valid security code.",
+    "errorProcessing": "Payment could not be processed. Please try again."
+  },
   "shell": {
     "navSection": "Main menu",
     "systemTitle": "Monitoring management system",
