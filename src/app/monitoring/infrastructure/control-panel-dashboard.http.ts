@@ -51,6 +51,7 @@ export class ControlPanelDashboardHttp {
   }
 
   createAlert$(body: CreateAlertBody): Observable<AlertApiDto> {
-    return this.http.post<AlertApiDto>(INFRATRACK_API.alerts, body);
+    const { machineryId, ...payload } = body;
+    return this.http.post<AlertApiDto>(`${INFRATRACK_API.machinery}/${machineryId}/alerts`, payload);
   }
 }

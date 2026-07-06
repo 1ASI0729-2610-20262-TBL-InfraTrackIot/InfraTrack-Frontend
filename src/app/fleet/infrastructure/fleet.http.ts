@@ -34,16 +34,16 @@ export class FleetHttp {
   }
 
   listIotNodes(): Observable<IotNodeApiDto[]> {
-    return this.http.get<IotNodeApiDto[]>(`${this.base}/iotNodes`);
+    return this.http.get<IotNodeApiDto[]>(`${this.base}/iot-nodes`);
   }
 
   createIotNode(body: CreateIotNodeApiDto): Observable<IotNodeApiDto> {
-    return this.http.post<IotNodeApiDto>(`${this.base}/iotNodes`, body);
+    return this.http.post<IotNodeApiDto>(`${this.base}/iot-nodes`, body);
   }
 
   linkIotToMachinery(iotNodeId: number, machineryId: number): Observable<IotNodeApiDto> {
     return this.http.put<IotNodeApiDto>(
-      `${this.base}/iotNodes/${iotNodeId}/machinery/${machineryId}`,
+      `${this.base}/iot-nodes/${iotNodeId}/machinery/${machineryId}`,
       null,
     );
   }

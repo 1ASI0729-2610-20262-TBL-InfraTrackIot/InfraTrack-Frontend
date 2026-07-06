@@ -19,9 +19,10 @@ export const environment = {
   usersEndpointPath: '/users',
   operatorsEndpointPath: '/operators',
   machineryEndpointPath: '/machinery',
-  iotNodesEndpointPath: '/iotNodes',
-  telemetryDataEndpointPath: '/telemetryData',
+  iotNodesEndpointPath: '/iot-nodes',
+  telemetryDataEndpointPath: '/telemetry-data',
   alertsEndpointPath: '/alerts',
-  maintenanceRecordsEndpointPath: '/maintenanceRecords',
+  maintenanceRecordsEndpointPath: '/maintenance-records',
+  staffEndpointPath: '/staff',
   subscriptionsEndpointPath: '/subscriptions',
 };
