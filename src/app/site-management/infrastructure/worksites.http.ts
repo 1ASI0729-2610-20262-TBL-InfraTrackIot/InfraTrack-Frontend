@@ -12,6 +12,7 @@ import {
 } from './worksites.mapper';
 
 const BASE = `${environment.apiBaseUrl}/worksites`;
+const STAFF_BASE = `${environment.apiBaseUrl}${environment.staffEndpointPath}`;
 
 @Injectable({ providedIn: 'root' })
 export class WorksitesHttp {
@@ -30,11 +31,11 @@ export class WorksitesHttp {
   }
 
   listStaff(): Observable<WorksiteStaffApiDto[]> {
-    return this.http.get<WorksiteStaffApiDto[]>(`${BASE}/staff`);
+    return this.http.get<WorksiteStaffApiDto[]>(STAFF_BASE);
   }
 
   createStaff(body: CreateWorksiteStaffApiDto): Observable<WorksiteStaffApiDto> {
-    return this.http.post<WorksiteStaffApiDto>(`${BASE}/staff`, body);
+    return this.http.post<WorksiteStaffApiDto>(STAFF_BASE, body);
   }
 
   listTransportsForWorksite(worksiteId: number): Observable<WorksiteTransportApiDto[]> {

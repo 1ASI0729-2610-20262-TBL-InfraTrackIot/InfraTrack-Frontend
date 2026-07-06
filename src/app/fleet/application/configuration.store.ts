@@ -110,7 +110,19 @@ export class ConfigurationStore {
     if (!infratrackPostAllowed()) {
       return throwError(() => new Error('POST_DISABLED'));
     }
-    return this.http.post<MaintenanceRecordApiDto>(INFRATRACK_API.maintenanceRecords, body).pipe(
+    return this.http
+      .post<MaintenanceRecordApiDto>(
+        `${INFRATRACK_API.machinery}/${body.machineryId}/maintenance-records`,
+        {
+          serviceType: body.serviceType,
+          description: body.description,
+          costPen: body.costPen,
+          engineHoursAtService: body.engineHoursAtService,
+          serviceDate: body.serviceDate,
+          nextServiceDate: body.nextServiceDate,
+        },
+      )
+      .pipe(
       map((created) => {
         this.maintenanceRecords.update((rows) => [...rows, created]);
         this.rebuildDashboard();
